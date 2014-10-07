@@ -7,9 +7,9 @@ namespace MultiTheftAuto
     {
         public static double FLOAT_EPSILON = 0.0001;
 
-        public float X;
-        public float Y;
-        public float Z;
+        public float X { get; set; }
+        public float Y { get; set; }
+        public float Z { get; set; }
 
         public static Vector3 Back
         {
@@ -106,7 +106,7 @@ namespace MultiTheftAuto
             }
         }
 
-        Vector3( float fX, float fY, float fZ )
+        public Vector3( float fX, float fY, float fZ )
         {
             this.Set( fX, fY, fZ );
         }

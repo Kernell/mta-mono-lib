@@ -134,6 +134,20 @@ namespace MultiTheftAuto
 		    return 0.0f;
 	    }
 
+		public Vector3 GetNormalized()
+		{
+			if( this.Magnitude == 0.0f )
+			{
+				throw new DivideByZeroException();
+			}
+			else
+			{
+				float inverse = 1.0f / this.Magnitude;
+				
+				return new Vector3( this.X * inverse, this.Y * inverse, this.Z * inverse );
+			}
+		}
+
         public float Length()
         {
 		    return (float)Math.Sqrt( (float)this.LengthSquared() );
@@ -219,10 +233,58 @@ namespace MultiTheftAuto
         /// <param name="to"></param>
         /// <returns></returns>
 
-        public static float Angle( Vector3 from, Vector3 to )
+        public float Angle( Vector3 to )
         {
-            return ( 360.0f - ( (float)Math.Atan2( to.X - from.X, to.Y - from.Y ) * 180.0f / (float)Math.PI ) ) % 360.0f;
+            return ( 360.0f - ( (float)Math.Atan2( to.X - this.X, to.Y - this.Y ) * 180.0f / (float)Math.PI ) ) % 360.0f;
         }
+
+		public static float Angle( Vector3 vector1, Vector3 vector2 )
+		{
+			return (float)Math.Acos( vector1.GetNormalized().DotProduct( vector2.GetNormalized() ) );
+		}
+
+		public Vector3 Pitch( float degree )
+		{
+			float x = this.X;
+			float y = ( this.Y * (float)Math.Cos( degree ) ) - ( this.Z * (float)Math.Sin( degree ) );
+			float z = ( this.Y * (float)Math.Sin( degree ) ) + ( this.Z * (float)Math.Cos( degree ) );
+			
+			return new Vector3( x, y, z );
+		}
+
+		public Vector3 Yaw( float degree )
+		{
+			float x = ( this.Z * (float)Math.Sin( degree ) ) + ( this.X * (float)Math.Cos( degree ) );
+			float y = this.Y;
+			float z = ( this.Z * (float)Math.Cos( degree ) ) - ( this.X * (float)Math.Sin( degree ) );
+			
+			return new Vector3( x, y, z );
+		}
+
+		public Vector3 Roll( float degree )
+		{
+			float x = ( this.X * (float)Math.Cos( degree ) ) - ( this.Y * (float)Math.Sin( degree ) );
+			float y = ( this.X * (float)Math.Sin( degree ) ) + ( this.Y * (float)Math.Cos( degree ) );
+			float z = this.Z;
+
+			return new Vector3( x, y, z );
+		}
+
+		public bool IsBackFace( Vector3 lineOfSight )
+		{
+			return this.DotProduct( lineOfSight ) < 0.0f;
+		}
+		public bool IsPerpendicular( Vector3 vector )
+		{
+			return this.DotProduct( vector ) == 0.0f;
+		}
+
+		public float MixedProduct( Vector3 v2, Vector3 v3 )
+		{
+			this.CrossProduct( v2 );
+
+			return this.DotProduct( v3 );
+		}
 
         public override string ToString()
         {
@@ -244,7 +306,9 @@ namespace MultiTheftAuto
             return 0;
         }
 
-        public static Vector3 operator +( Vector3 vector1, Vector3 vector2 )
+		#region Operators
+
+		public static Vector3 operator +( Vector3 vector1, Vector3 vector2 )
         {
             return new Vector3( vector1.X + vector2.X, vector1.Y + vector2.Y, vector1.Z + vector2.Z );
         }
@@ -302,6 +366,8 @@ namespace MultiTheftAuto
         public static bool operator !=( Vector3 vector1, Vector3 vector2 )
         {
             return !vector1.Equals( vector2 );
-        }
-    }
+		}
+
+		#endregion
+	}
 }

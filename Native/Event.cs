@@ -9,19 +9,19 @@ namespace MultiTheftAuto.Native
         public static extern bool Add( string name );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool AddHandler( string eventName, Object attachedTo, Delegate handlerFunction, bool getPropagated = true, string priority = "normal" );
+		public static extern bool AddHandler( string eventName, UInt32 attachedTo, Delegate handlerFunction, bool getPropagated = true, string priority = "normal" );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool RemoveHandler( string eventName, Object attachedTo, Delegate handlerFunction );
+		public static extern bool RemoveHandler( string eventName, UInt32 attachedTo, Delegate handlerFunction );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern Array GetHandlers( string eventName, Object attachedTo );
+		public static extern Array GetHandlers( string eventName, UInt32 attachedTo );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool Trigger( string eventName, Object baseElement, params Object[] arguments );
+		public static extern bool Trigger( string eventName, UInt32 baseElement, params Object[] arguments );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool TriggerClient( Object sendTo, string name, Object sourceElement, params Object[] arguments );
+		public static extern bool TriggerClient( UInt32 sendTo, string name, UInt32 sourceElement, params Object[] arguments );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
         public static extern bool Cancel( bool cancel = true, string reason = "" );
@@ -33,15 +33,15 @@ namespace MultiTheftAuto.Native
         public static extern bool WasCancelled();
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int TriggerLatentClient( Object sendTo, string name, int bandwidth, bool persist, Object theElement, params Object[] arguments );
+		public static extern int TriggerLatentClient( UInt32 sendTo, string name, int bandwidth, bool persist, UInt32 theElement, params Object[] arguments );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetLatentHandles( Object player );
+		public static extern int GetLatentHandles( UInt32 player );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetLatentStatus( Object player, int handle );
+		public static extern int GetLatentStatus( UInt32 player, int handle );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int CancelLatent( Object player, int handle );
+		public static extern int CancelLatent( UInt32 player, int handle );
     }
 }

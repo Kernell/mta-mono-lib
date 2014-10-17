@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Water : Element
+	public class Water
 	{
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern UInt32 Create( Vector3 position1, Vector3 position2, Vector3 position3, Vector3 position4 = null, bool bShallow = false );

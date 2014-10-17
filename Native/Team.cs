@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Team : Element
+	public class Team
 	{
 		// Team get funcs
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 Create( string name, Color color = new Color( 255, 255, 255 ) );
+		public static extern UInt32 Create( string name, Color color = null );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern UInt32 GetFromName( string name );

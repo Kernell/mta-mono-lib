@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Object : Element
+	public class Object
 	{
 		// Object create/destroy functions
 		[MethodImpl( MethodImplOptions.InternalCall )]

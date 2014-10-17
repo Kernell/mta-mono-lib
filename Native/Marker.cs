@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Marker : Element
+	public class Marker
 	{
 		// Marker create/destroy functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 Create( Vector3 position, string type = "checkpoint", float size = 4.0, Color color = new Color( 0, 0, 255, 255 ), UInt32 visibleTo = 0 );
+		public static extern UInt32 Create( Vector3 position, string type = "checkpoint", float size = 4.0f, Color color = null, UInt32 visibleTo = 0 );
 
 		// Marker get functions
 		[MethodImpl( MethodImplOptions.InternalCall )]

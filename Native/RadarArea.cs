@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class RadarArea : Element
+	public class RadarArea
 	{
 		// Radar area create/destroy funcs
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 Create( float leftX, float bottomY, float sizeX, float sizeY, Color color = new Color( 255, 0, 0, 255 ), UInt32 visibleTo = 0 );
+		public static extern UInt32 Create( float leftX, float bottomY, float sizeX, float sizeY, Color color = null, UInt32 visibleTo = 0 );
 
 		// Radar area get funcs
 		[MethodImpl( MethodImplOptions.InternalCall )]

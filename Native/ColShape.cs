@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-    public class ColShape : Element
+    public class ColShape
     {
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern UInt32 CreateCircle( float fX, float fY, float radius );

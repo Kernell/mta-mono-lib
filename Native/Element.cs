@@ -3,20 +3,27 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Element
+	public static class Element
     {
-		// UInt32 create/destroy
-
+		// Element create/destroy
         [MethodImpl( MethodImplOptions.InternalCall )]
         public static extern UInt32 Create( string type, string ID );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool Destroy( UInt32 element );
+		public static extern bool Destroy( UInt32 userdata );
 
-		// UInt32 get funcs
+		// Element get funcs
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsElement( UInt32 userdata );
+		
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern string GetType( UInt32 userdata );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern string GetID( UInt32 userdata );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern UInt32 Clone( UInt32 element, Vector3 position = null, bool cloneChildren = false );
+		public static extern UInt32 Clone( UInt32 userdata, Vector3 position = null, bool cloneChildren = false );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
         public static extern UInt32 GetByID( string elementID, int index = 0 );
@@ -28,149 +35,148 @@ namespace MultiTheftAuto.Native
         public static extern UInt32 GetChild( UInt32 parent, int index );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool GetChildrenCount( UInt32 parent );
+        public static extern int GetChildrenCount( UInt32 parent );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern Object GetData( UInt32 userdata, string key, bool inherit = true );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern Array GetAllData( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32 GetParent( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern Vector3 GetPosition( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern Vector3 GetRotation( UInt32 userdata, string order = "default" );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern Vector3 GetVelocity( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern int GetInterior( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsWithinColShape( UInt32 userdata, UInt32 colshape );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsWithinMarker( UInt32 userdata, UInt32 marker );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern int GetDimension( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern string GetZoneName( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsAttached( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32 GetAttachedTo( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32 GetColShape( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern int GetAlpha( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsDoubleSided( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern float GetHealth( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern int GetModel( UInt32 userdata );
+
+        [MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool IsInWater( UInt32 userdata );
 
 //		[MethodImpl( MethodImplOptions.InternalCall )]
-//		public static extern Object GetData( UInt32 element, string key, bool inherit = true );
-
-//		[MethodImpl( MethodImplOptions.InternalCall )]
-//		public static extern Array GetAllData( UInt32 element );
+//		public static extern bool GetElementAttachedOffsets( UInt32 userdata );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern UInt32 GetParent( UInt32 element );
+		public static extern UInt32 GetSyncer( UInt32 userdata );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Vector3 GetPosition( UInt32 element );
+		public static extern bool GetCollisionsEnabled( UInt32 userdata );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern Vector3 GetRotation( UInt32 element, string order = "default" );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern Vector3 GetVelocity( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetInterior( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool IsWithinColShape( UInt32 element, ColShape colshape );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool IsWithinMarker( UInt32 element, Marker marker );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetDimension( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern string GetZoneName( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool IsAttached( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern UInt32 GetAttachedTo( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern ColShape GetColShape( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetAlpha( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool IsDoubleSided( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern float GetHealth( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern int GetModel( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-        public static extern bool IsInWater( UInt32 element );
-
-//		[MethodImpl( MethodImplOptions.InternalCall )]
-//		public static extern bool GetElementAttachedOffsets( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 GetSyncer( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool GetCollisionsEnabled( UInt32 element );
-
-        [MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool IsFrozen( UInt32 element );
+		public static extern bool IsFrozen( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 GetLowLODElement( UInt32 element );
+		public static extern UInt32 GetLowLODElement( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool IsElementLowLOD( UInt32 element );
+		public static extern bool IsElementLowLOD( UInt32 userdata );
 
-		// UInt32 set funcs
+		// Element set funcs
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool ClearElementVisibleTo( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool ClearElementVisibleTo( UInt32 element );
+		public static extern bool SetID( UInt32 userdata, string ID );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetID( UInt32 element, string ID );
+		public static extern bool SetData( UInt32 userdata, string key, string value, bool sync = true );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetData( UInt32 element, string key, string value, bool sync = true );
+		public static extern bool RemoveData( UInt32 userdata, string key );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool RemoveData( UInt32 element, string key );
+		public static extern bool SetParent( UInt32 userdata, UInt32 parent );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetParent( UInt32 element, UInt32 parent );
+		public static extern bool SetPosition( UInt32 userdata, Vector3 position, bool warp = true );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetPosition( UInt32 element, Vector3 position, bool warp = true );
+		public static extern bool SetRotation( UInt32 userdata, Vector3 rotation, string order = "default", bool pedRotation = false );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetRotation( UInt32 element, Vector3 rotation, string order = "default", bool pedRotation = false );
+		public static extern bool SetVelocity( UInt32 userdata, Vector3 velocity );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetVelocity( UInt32 element, Vector3 velocity );
+		public static extern bool SetVisibleTo( UInt32 userdata, UInt32 target, bool visible );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetVisibleTo( UInt32 element, UInt32 target, bool visible );
+		public static extern bool SetInterior( UInt32 userdata, int interior, Vector3 position = null );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetInterior( UInt32 element, int interior, Vector3 position = null );
+		public static extern bool SetDimension( UInt32 userdata, int dimension );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDimension( UInt32 element, int dimension );
+		public static extern bool Attach( UInt32 userdata, UInt32 target, Vector3 offsetPosition = null, Vector3 offsetRotation = null );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Attach( UInt32 element, UInt32 target, Vector3 offsetPosition = null, Vector3 offsetRotation = null );
+		public static extern bool Detach( UInt32 userdata, UInt32 target = 0 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Detach( UInt32 element, UInt32 target = null );
+		public static extern bool SetAlpha( UInt32 userdata, int alpha );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetAlpha( UInt32 element, int alpha );
+		public static extern bool SetDoubleSided( UInt32 userdata, bool doubleSided );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDoubleSided( UInt32 element, bool doubleSided );
+		public static extern bool SetHealth( UInt32 userdata, float health );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetHealth( UInt32 element, float health );
+		public static extern bool SetModel( UInt32 userdata, int model );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetModel( UInt32 element, int model );
+		public static extern bool SetAttachedOffsets( UInt32 userdata, Vector3 offsetPosition = null, Vector3 offsetRotation = null );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetAttachedOffsets( UInt32 element, Vector3 offsetPosition = null, Vector3 offsetRotation = null );
+		public static extern bool SetSyncer( UInt32 userdata, UInt32 player );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetSyncer( UInt32 element, UInt32 player );
+		public static extern bool SetCollisionsEnabled( UInt32 userdata, bool enabled );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetCollisionsEnabled( UInt32 element, bool enabled );
+		public static extern bool SetFrozen( UInt32 userdata, bool frozen );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetFrozen( UInt32 element, bool frozen );
-
-		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool setLowLODElement( UInt32 element, UInt32 lowLod );
+		public static extern bool SetLowLODElement( UInt32 userdata, UInt32 lowLod );
     }
 }

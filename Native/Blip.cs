@@ -3,14 +3,14 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Blip : Element
+	public class Blip
 	{
 		// Blip create/destroy functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 Create( Vector3 position, int icon = 0, int size = 2, Color color = new Color( 255, 0, 0, 255 ), int ordering = 0, float visibleDistance = 99999.0, UInt32 visibleTo = 0 );
+		public static extern UInt32 Create( Vector3 position, int icon = 0, int size = 2, Color color = null, int ordering = 0, float visibleDistance = 99999.0f, UInt32 visibleTo = 0 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 CreateAttachedTo( UInt32 element, int icon = 0, int size = 2, Color color = new Color( 255, 0, 0, 255 ), int ordering = 0, float visibleDistance = 99999.0, UInt32 visibleTo = 0 );
+		public static extern UInt32 CreateAttachedTo( UInt32 element, int icon = 0, int size = 2, Color color = null, int ordering = 0, float visibleDistance = 99999.0f, UInt32 visibleTo = 0 );
 
 		// Blip get functions
 		[MethodImpl( MethodImplOptions.InternalCall )]

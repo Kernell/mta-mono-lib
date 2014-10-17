@@ -3,11 +3,11 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Ped : Element
+	public class Ped
 	{
 		// Ped get functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 Create( int modelid, float x, float y, float z, float rot = 0.0f, bool synced = true );
+		public static extern UInt32 Create( int modelid, Vector3 position, float rot = 0.0f, bool synced = true );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern float GetArmor( UInt32 ped );
@@ -25,7 +25,7 @@ namespace MultiTheftAuto.Native
 		public static extern float GetStat( UInt32 ped, int stat );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Object GetTarget( UInt32 ped );
+		public static extern UInt32 GetTarget( UInt32 ped );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern int GetWeapon( UInt32 ped, int slot = 0 );
@@ -42,8 +42,8 @@ namespace MultiTheftAuto.Native
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern int GetFightingStyle( UInt32 ped );
 
-//		[MethodImpl( MethodImplOptions.InternalCall )]
-//		public static extern int GetPedMoveAnim( UInt32 ped );
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern int GetPedMoveAnim( UInt32 ped );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern float GetGravity( UInt32 ped );
@@ -85,7 +85,7 @@ namespace MultiTheftAuto.Native
 		public static extern bool SetArmor( UInt32 ped, int armor );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Kill( UInt32 ped, UInt32 theKiller = null, int weapon = 255, int bodyPart = 255, bool stealth = false );
+		public static extern bool Kill( UInt32 ped, UInt32 theKiller = 0, int weapon = 255, int bodyPart = 255, bool stealth = false );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool SetStat( UInt32 ped, int stat, float value );
@@ -105,8 +105,8 @@ namespace MultiTheftAuto.Native
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool SetFightingStyle( UInt32 ped, int style );
 
-//		[MethodImpl( MethodImplOptions.InternalCall )]
-//		public static extern bool SetPedMoveAnim( Ped ped );
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool SetPedMoveAnim( UInt32 ped, int anim );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool SetGravity( UInt32 ped, float gravity );

@@ -34,7 +34,7 @@ namespace MultiTheftAuto.Native
 		public static extern int GetPing( UInt32 player );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern UInt32 GetRandom( UInt32 player );
+		public static extern UInt32 GetRandom();
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool IsMuted( UInt32 player );
@@ -67,7 +67,7 @@ namespace MultiTheftAuto.Native
 		public static extern string GetUserName( UInt32 player );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern string GetBlurLevel( Player player );
+		public static extern int GetBlurLevel( UInt32 player );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern string GetName( UInt32 player );
@@ -95,7 +95,7 @@ namespace MultiTheftAuto.Native
 		public static extern bool TakeMoney( UInt32 player, int money );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Spawn( UInt32 player, Vector3 position, int rotation = 0, int skinID = 0, int interior = 0, int dimension = 0, Team theTeam = null );
+		public static extern bool Spawn( UInt32 player, Vector3 position, int rotation = 0, int skinID = 0, int interior = 0, int dimension = 0, UInt32 theTeam = 0 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool ShowHudComponent( UInt32 player, string component, bool show );
@@ -131,9 +131,9 @@ namespace MultiTheftAuto.Native
 		public static extern bool DetonateSatchels( UInt32 player );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool TakePlayerScreenShot( UInt32 player, int width, int height, string tag = "", int quality = 30, int maxBandwith = 5000 );
+		public static extern bool TakeScreenShot( UInt32 player, int width, int height, string tag = "", int quality = 30, int maxBandwith = 5000 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetPlayerTeam( UInt32 player, UInt32 team );
+		public static extern bool SetTeam( UInt32 player, UInt32 team );
 	}
 }

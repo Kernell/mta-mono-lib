@@ -3,12 +3,12 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Vehicle : Element
+	public class Vehicle
 	{
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern UInt32 Create( int model, Vector3 position, Vector3 rotation, string numberplate = null, bool direction = false, int variant1 = 255, int variant2 = 255 );
 
-		// Vehicle get functions
+		#region Vehicle get functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern string GetType( UInt32 vehicle );
 
@@ -128,144 +128,147 @@ namespace MultiTheftAuto.Native
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern float GetVehicleDoorOpenRatio( UInt32 vehicle, int door );
+		#endregion
 
-		// Vehicle set functions
+		#region Vehicle set functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Fix( UInt32 vehicle );
-
-		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Blow( UInt32 vehicle, bool explode );
+		public static extern bool Fix( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTurnVelocity( UInt32 vehicle, Vector3 velocity );
+		public static extern bool Blow( UInt32 userdata, bool explode );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetColor( UInt32 vehicle, Color color1, Color color2, Color color3, Color color4 );
+		public static extern bool SetTurnVelocity( UInt32 userdata, Vector3 velocity );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetLandingGearDown( UInt32 vehicle, bool state );
+		public static extern bool SetColor( UInt32 userdata, Color color1, Color color2, Color color3, Color color4 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetLocked( UInt32 vehicle, bool state );
+		public static extern bool SetLandingGearDown( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetModel( UInt32 vehicle, int model );
+		public static extern bool SetLocked( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDoorsUndamageable( UInt32 vehicle, bool state );
+		public static extern bool SetModel( UInt32 userdata, int model );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetSirensOn( UInt32 vehicle, bool state );
+		public static extern bool SetDoorsUndamageable( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTaxiLightOn( UInt32 vehicle, bool state );
+		public static extern bool SetSirensOn( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool IsTaxiLightOn( UInt32 vehicle );
+		public static extern bool SetTaxiLightOn( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool AddUpgrade( UInt32 vehicle, int upgrade );
+		public static extern bool IsTaxiLightOn( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool RemoveUpgrade( UInt32 vehicle, int upgrade );
+		public static extern bool AddUpgrade( UInt32 userdata, int upgrade );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDoorState( UInt32 vehicle, int door, int state );
+		public static extern bool RemoveUpgrade( UInt32 userdata, int upgrade );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetWheelStates( UInt32 vehicle, int frontLeft, int rearLeft = -1, int frontRight = -1, int rearRight = -1 );
+		public static extern bool SetDoorState( UInt32 userdata, int door, int state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetLightState( UInt32 vehicle, int light, int state );
+		public static extern bool SetWheelStates( UInt32 userdata, int frontLeft, int rearLeft = -1, int frontRight = -1, int rearRight = -1 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetPanelState( UInt32 vehicle, int panelID, int state );
+		public static extern bool SetLightState( UInt32 userdata, int light, int state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetIdleRespawnDelay( UInt32 vehicle, int timeDelay );
+		public static extern bool SetPanelState( UInt32 userdata, int panelID, int state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetRespawnDelay( UInt32 vehicle, int timeDelay );
+		public static extern bool SetIdleRespawnDelay( UInt32 userdata, int timeDelay );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetRespawnPosition( UInt32 vehicle, Vector3 position, Vector3 rotation );
+		public static extern bool SetRespawnDelay( UInt32 userdata, int timeDelay );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool ToggleRespawn( UInt32 vehicle, bool respawn );
+		public static extern bool SetRespawnPosition( UInt32 userdata, Vector3 position, Vector3 rotation );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool ResetExplosionTime( UInt32 vehicle );
+		public static extern bool ToggleRespawn( UInt32 userdata, bool respawn );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool ResetIdleTime( UInt32 vehicle );
+		public static extern bool ResetExplosionTime( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Spawn( UInt32 vehicle, Vector3 position, Vector3 rotation );
+		public static extern bool ResetIdleTime( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool Respawn( UInt32 vehicle );
+		public static extern bool Spawn( UInt32 userdata, Vector3 position, Vector3 rotation );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetOverrideLights( UInt32 vehicle, int state );
+		public static extern bool Respawn( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool AttachTrailerToVehicle( UInt32 vehicle, UInt32 trailer );
+		public static extern bool SetOverrideLights( UInt32 userdata, int state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool DetachTrailerFromVehicle( UInt32 vehicle, UInt32 trailer = null );
+		public static extern bool AttachTrailerToVehicle( UInt32 userdata, UInt32 trailer );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetEngineState( UInt32 vehicle, bool state );
+		public static extern bool DetachTrailerFromVehicle( UInt32 userdata, UInt32 trailer = 0 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDamageProof( UInt32 vehicle, bool state );
+		public static extern bool SetEngineState( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetPaintjob( UInt32 vehicle, int value );
+		public static extern bool SetDamageProof( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetFuelTankExplodable( UInt32 vehicle, bool state );
+		public static extern bool SetPaintjob( UInt32 userdata, int value );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTrainDerailed( UInt32 vehicle, bool state );
+		public static extern bool SetFuelTankExplodable( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTrainDerailable( UInt32 vehicle, bool state );
+		public static extern bool SetTrainDerailed( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTrainDirection( UInt32 vehicle, bool state );
+		public static extern bool SetTrainDerailable( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTrainSpeed( UInt32 vehicle, float speed );
+		public static extern bool SetTrainDirection( UInt32 userdata, bool state );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetHeadLightColor( UInt32 vehicle, Color color );
+		public static extern bool SetTrainSpeed( UInt32 userdata, float speed );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetTurretPosition( UInt32 vehicle, float x, float y );
+		public static extern bool SetHeadLightColor( UInt32 userdata, Color color );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetDoorOpenRatio( UInt32 vehicle, int door, float ratio, int time = 0 );
+		public static extern bool SetTurretPosition( UInt32 userdata, float x, float y );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetVariant( UInt32 vehicle, int variant1 = 255, int variant2 = 255 );
+		public static extern bool SetDoorOpenRatio( UInt32 userdata, int door, float ratio, int time = 0 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool AddSirens( UInt32 vehicle, int sirenCount, int sirenType, bool flag360 = false, bool checkLos = true, bool useRandomiser = true, bool silent = false );
+		public static extern bool SetVariant( UInt32 userdata, int variant1 = 255, int variant2 = 255 );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool RemoveSirens( UInt32 vehicle );
+		public static extern bool AddSirens( UInt32 userdata, int sirenCount, int sirenType, bool flag360 = false, bool checkLos = true, bool useRandomiser = true, bool silent = false );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetSirens( UInt32 vehicle, int sirenPoint, float posX, float posY, float posZ, float red, float green, float blue, float alpha = 255, float minAlpha = 0.0f );
+		public static extern bool RemoveSirens( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Array GetSirens( UInt32 vehicle );
+		public static extern bool SetSirens( UInt32 userdata, int sirenPoint, Vector3 position, Color color = null, float minAlpha = 0.0f );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Object GetSirenParams( UInt32 vehicle );
+		public static extern Array GetSirens( UInt32 userdata );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern bool SetPlateText( UInt32 vehicle, string numberplate );
+		public static extern Object GetSirenParams( UInt32 userdata );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool SetPlateText( UInt32 userdata, string numberplate );
+
+		#endregion
 	}
 }

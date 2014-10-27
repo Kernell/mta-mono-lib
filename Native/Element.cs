@@ -24,6 +24,9 @@ namespace MultiTheftAuto.Native
 
         [MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern UInt32 Clone( UInt32 userdata, Vector3 position = null, bool cloneChildren = false );
+        
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32[] GetByType( string elementType, UInt32 startElement = 0 );
 
         [MethodImpl( MethodImplOptions.InternalCall )]
         public static extern UInt32 GetByID( string elementID, int index = 0 );

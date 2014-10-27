@@ -320,6 +320,20 @@ namespace MultiTheftAuto
 
 		#region Static methods
 
+		public static T[] GetByType<T>( string elementType ) where T : class
+		{
+			UInt32[] userdataArray = Native.Element.GetByType( elementType );
+
+			T[] elements = new T[ userdataArray.Length ];
+
+			for( uint i = 0; i < userdataArray.Length; i++ )
+			{
+				elements.SetValue( Element.FindOrCreate( userdataArray[ i ] ) as T, i );
+			}
+			
+			return elements;
+		}
+
 		public static Object GetByID( string elementID, int index = 0 )
 		{
 			return Element.FindOrCreate( Native.Element.GetByID( elementID, index ) );

@@ -22,7 +22,7 @@ namespace MultiTheftAuto.Native
 		public static extern bool GetFriendlyFire( UInt32 team );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Array GetPlayers( UInt32 team );
+		public static extern UInt32[] GetPlayers( UInt32 team );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern int CountPlayers( UInt32 team );

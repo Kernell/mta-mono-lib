@@ -14,6 +14,9 @@ namespace MultiTheftAuto.Native
 
 		// Element get funcs
 		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32 GetRootElement();
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool IsElement( UInt32 userdata );
 		
 		[MethodImpl( MethodImplOptions.InternalCall )]
@@ -41,7 +44,7 @@ namespace MultiTheftAuto.Native
         public static extern int GetChildrenCount( UInt32 parent );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern Object GetData( UInt32 userdata, string key, bool inherit = true );
+		public static extern string GetData( UInt32 userdata, string key, bool inherit = true );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern Array GetAllData( UInt32 userdata );

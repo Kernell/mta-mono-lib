@@ -84,6 +84,9 @@ namespace MultiTheftAuto.Native
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern Object GetACInfo( UInt32 player );
 
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern string SetPlayerAnnounceValue( UInt32 element, string key, string value );
+
 		// Player set functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool SetMoney( UInt32 player, int money );
@@ -135,5 +138,8 @@ namespace MultiTheftAuto.Native
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern bool SetTeam( UInt32 player, UInt32 team );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern string GetPlayerAnnounceValue( UInt32 element, string key );
 	}
 }

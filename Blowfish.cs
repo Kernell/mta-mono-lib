@@ -151,24 +151,24 @@ namespace MultiTheftAuto
 		private ulong xl_par;
 		private ulong xr_par;
 
-		private byte Wordbyte0( ulong w )
+		private uint Wordbyte0( ulong w )
 		{
-			return (byte)( w / 256 / 256 / 256 % 256 );
+			return (uint)( w / 256 / 256 / 256 % 256 );
 		}
 
-		private byte Wordbyte1( ulong w )
+		private uint Wordbyte1( ulong w )
 		{
-			return (byte)( w / 256 / 256 % 256 );
+			return (uint)( w / 256 / 256 % 256 );
 		}
 
-		private byte Wordbyte2( ulong w )
+		private uint Wordbyte2( ulong w )
 		{
-			return (byte)( w / 256 % 256 );
+			return (uint)( w / 256 % 256 );
 		}
 
-		private byte Wordbyte3( ulong w )
+		private uint Wordbyte3( ulong w )
 		{
-			return (byte)( w % 256 );
+			return (uint)( w % 256 );
 		}
 
 		private ulong Round( ulong a, ulong b, ulong n )
@@ -178,45 +178,45 @@ namespace MultiTheftAuto
 
 		private void Encipher()
 		{
-			ulong Xl	= xl_par;
-			ulong Xr	= xr_par;
+			ulong Xl = xl_par;
+			ulong Xr = xr_par;
 		
 			Xl	^= m_P[ 0 ];
 		
 			for( ulong i = 0; i < 16; i += 2 )
 			{
-				Xr	= Round( Xr, Xl, i + 1 );
-				Xl	= Round( Xl, Xr, i + 2 );
+				Xr = Round( Xr, Xl, i + 1 );
+				Xl = Round( Xl, Xr, i + 2 );
 			}
 		
-			Xr	^= m_P[ 17 ];
+			Xr ^= m_P[ 17 ];
 		
-			xl_par	= Xr;
-			xr_par	= Xl;
+			xl_par = Xr;
+			xr_par = Xl;
 		}
 
 		private void Decipher()
 		{
-			ulong Xl	= xl_par;
-			ulong Xr	= xr_par;
+			ulong Xl = xl_par;
+			ulong Xr = xr_par;
 		
-			Xl	^= m_P[ 17 ];
+			Xl ^= m_P[ 17 ];
 		
 			for( ulong i = 16; i > 0; i -= 2 )
 			{
-				Xr	= Round( Xr, Xl, i );
-				Xl	= Round( Xl, Xr, i - 1 );
+				Xr = Round( Xr, Xl, i );
+				Xl = Round( Xl, Xr, i - 1 );
 			}
 		
-			Xr	^= m_P[ 0 ];
+			Xr ^= m_P[ 0 ];
 		
-			xl_par	= Xr;
-			xr_par	= Xl;
+			xl_par = Xr;
+			xr_par = Xl;
 		}
 
 		private string WordEscape( ulong w )
 		{
-			string sResult = "";
+			string result = "";
 
 			uint[] m = new uint[ 4 ];
 		
@@ -225,31 +225,32 @@ namespace MultiTheftAuto
 			m[ 2 ] = Wordbyte2( w );
 			m[ 3 ] = Wordbyte3( w );
 
-			for( uint i = 3; i >= 0; i-- )
+			for( int i = 3; i >= 0; i-- )
 			{
-				uint iChar1	= m[ i ] / 16;
-				uint iChar2	= m[ i ] % 16;
+				uint c1	= m[ i ] / 16;
+				uint c2	= m[ i ] % 16;
 
-				iChar1 += iChar1 < 10U ? 48U : 55U;
-				iChar2 += iChar2 < 10U ? 48U : 55U;
+				c1 += c1 < 10U ? 48U : 55U;
+				c2 += c2 < 10U ? 48U : 55U;
 
-				sResult += (char)iChar1 + (char)iChar2;
+				result += Convert.ToChar( c1 ).ToString();
+				result += Convert.ToChar( c2 ).ToString();
 			}
-		
-			return sResult;
+
+			return result;
 		}
 
-		private uint WordUnescape( string szWords )
+		private int WordUnescape( string szWords )
 		{
-			uint iResult = 0;
+			int iResult = 0;
 
 			for( int i = 6; i >= 0; i-= 2 )
 			{
-				uint iChar1 = szWords[ i ];
-				uint iChar2 = szWords[ i + 1 ];
+				int iChar1 = (int)szWords[ i ];
+				int iChar2 = (int)szWords[ i + 1 ];
 			
-				iChar1 -= iChar1 < 58U ? 48U : 55U;
-				iChar2 -= iChar2 < 58U ? 48U : 55U;
+				iChar1 -= iChar1 < 58 ? 48 : 55;
+				iChar2 -= iChar2 < 58 ? 48 : 55;
 			
 				iResult = iResult * 256 + ( iChar1 * 16 + iChar2 );
 			}
@@ -263,13 +264,14 @@ namespace MultiTheftAuto
 		
 			for( int i = 0; i < sKey.Length; i++ )
 			{
-				uint iChar1		= sKey[ i ] / 16U;
-				uint iChar2		= sKey[ i ] % 16U;
-			
-				iChar1 += iChar1 < 10U ? 48U : 55U;
-				iChar2 += iChar2 < 10U ? 48U : 55U;
+				int c1	= (int)( sKey[ i ] / 16 );
+				int c2	= (int)( sKey[ i ] % 16 );
 
-				sResult += (char)iChar1 + (char)iChar2;
+				c1 += c1 < 10 ? 48 : 55;
+				c2 += c2 < 10 ? 48 : 55;
+
+				sResult += Convert.ToChar( c1 ).ToString();
+				sResult += Convert.ToChar( c2 ).ToString();
 			}
 
 			return sResult;
@@ -300,7 +302,7 @@ namespace MultiTheftAuto
 					else 
 						iChar2 -= 55;
 
-				sResult += (char)( iChar1 * 16U + iChar2 );
+				sResult += ( (char)( iChar1 * 16U + iChar2 ) ).ToString();
 			}
 
 			return sResult;
@@ -360,26 +362,28 @@ namespace MultiTheftAuto
 			//delete [] m_S;
 		}
 
-		public string Encrypt( string sKey )
+		public string Encrypt( string key )
 		{
-			string sString = Escape( sKey );
+			string str = Escape( key );
 
-			for( int i = 0; i < sString.Length % 16; i++ )
-				sString += "0";
-
-			string sResult = "";
-
-			for( int i = 0; i < sString.Length; i += 16 )
+			for( int i = 0; i < str.Length % 16; i++ )
 			{
-				xr_par	= WordUnescape( sString.Substring( i, 8 ) );
-				xl_par	= WordUnescape( sString.Substring( i + 8, 8 ) );
+				str += "0";
+			}
+
+			string result = "";
+
+			for( int i = 0; i < str.Length; i += 16 )
+			{
+				xr_par = (ulong)WordUnescape( str.Substring( i, 8 ) );
+				xl_par = (ulong)WordUnescape( str.Substring( i + 8, 8 ) );
 
 				Encipher();
 
-				sResult += WordEscape( xr_par ) + WordEscape( xl_par );
+				result += WordEscape( xr_par ) + WordEscape( xl_par );
 			}
-		
-			return sResult;
+
+			return result;
 		}
 
 		public string Decrypt( string sString )
@@ -393,8 +397,8 @@ namespace MultiTheftAuto
 
 			for( int i = 0; i < sString.Length; i += 16 )
 			{
-				xr_par = WordUnescape( sString.Substring( i, 8 ) );
-				xl_par = WordUnescape( sString.Substring( i + 8, 8 ) );
+				xr_par = (ulong)WordUnescape( sString.Substring( i, 8 ) );
+				xl_par = (ulong)WordUnescape( sString.Substring( i + 8, 8 ) );
 
 				Decipher();
 

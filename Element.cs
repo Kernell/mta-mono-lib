@@ -24,23 +24,25 @@ namespace MultiTheftAuto
 		{
 			get
 			{
-				return Element.FindOrCreate( Native.Element.GetRootElement() );
+				UInt32 userdata = Native.Element.GetRootElement();
+
+				return userdata != 0 ? Element.FindOrCreate( userdata ) : null;
 			}
 		}
 
 		#endregion
 
 		#region Constructors
-		
-		public Element( string type, string ID )
-			: this( Native.Element.Create( type, ID ) )
-		{
-
-		}
 
 		public Element( UInt32 userdata )
 		{
 			this.userdata = userdata;
+		}
+
+		public Element( string type, string ID )
+			: this( Native.Element.Create( type, ID ) )
+		{
+
 		}
 
 		#endregion
@@ -346,7 +348,12 @@ namespace MultiTheftAuto
 
 			for( uint i = 0; i < userdataArray.Length; i++ )
 			{
-				elements.SetValue( Element.FindOrCreate( userdataArray[ i ] ) as T, i );
+				UInt32 userdata = userdataArray[ i ];
+
+				if( userdata != 0 )
+				{
+					elements.SetValue( Element.FindOrCreate( userdata ) as T, i );
+				}
 			}
 			
 			return elements;
@@ -354,12 +361,18 @@ namespace MultiTheftAuto
 
 		public static Object GetByID( string elementID, int index = 0 )
 		{
-			return Element.FindOrCreate( Native.Element.GetByID( elementID, index ) );
+			UInt32 userdata = Native.Element.GetByID( elementID, index );
+
+			Debug.Info( "{0} [{1}]", userdata, userdata.ToString() );
+
+			return userdata != 0 ? Element.FindOrCreate( userdata ) : null;
 		}
 
 		public static Object GetByIndex( string type, int index )
 		{
-			return Element.FindOrCreate( Native.Element.GetByIndex( type, index ) );
+			UInt32 userdata = Native.Element.GetByIndex( type, index );
+
+			return userdata != 0 ? Element.FindOrCreate( userdata ) : null;
 		}
 
 		#endregion
@@ -392,11 +405,32 @@ namespace MultiTheftAuto
 
 		#region Element events
 
+
+		public delegate void UserdataEventHandler( uint userdata );
 		/// <summary>
 		/// This event is triggered when an element gets destroyed by destroyElement or when the creator resource is stopping.
 		/// It is also triggered when a parent element of this element is destroyed.
 		/// </summary>
-		public event EventHandler ElementDestroy;
+		public event UserdataEventHandler ElementDestroy;
+		//{
+		//	add
+		//	{
+		//		lock( this )
+		//		{
+		//			if( Native.Event.AddHandler( "onElementDestroy", this.userdata, value.Method, false, "normal" ) )
+		//			{
+		//				//this._Console += value;
+		//			}
+		//		}
+		//	}
+		//	remove
+		//	{
+		//		lock( this )
+		//		{
+		//			//this._Console -= value;
+		//		}
+		//	}
+		//}
 
 		/// <summary>
 		/// This event is triggered when an elementdata entry for an element changes.
@@ -701,17 +735,17 @@ namespace MultiTheftAuto
 
 		#region Client events
 
-		public static void OnConsole( UInt32 source, string message )
-		{
-			Player player = Element.FindOrCreate( source ) as Player;
+		//public static void OnConsole( UInt32 source, string message )
+		//{
+		//	Player player = Element.FindOrCreate( source ) as Player;
 
-			if( player.Console != null )
-			{
-				ConsoleEventArgs e = new ConsoleEventArgs( message );
+		//	if( player.Console != null )
+		//	{
+		//		ConsoleEventArgs e = new ConsoleEventArgs( message );
 
-				player.Console( player, e );
-			}
-		}
+		//		player.Console( player, e );
+		//	}
+		//}
 
 		#endregion
 
@@ -737,7 +771,18 @@ namespace MultiTheftAuto
 
 		#region Element events
 
-		public event EventHandler OnElementDestroy;
+		//public static void OnElementDestroy( UInt32 source )
+		//{
+		//	Player player = Element.FindOrCreate( source ) as Player;
+
+		//	if( player.Console != null )
+		//	{
+		//		System.EventArgs e = new System.EventArgs();
+
+		//		player.ElementDestroy( player, e );
+		//	}
+		//}
+
 		public event EventHandler OnElementDataChange;
 		public event EventHandler OnElementColShapeHit;
 		public event EventHandler OnElementColShapeLeave;

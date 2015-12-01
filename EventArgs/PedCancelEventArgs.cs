@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PedCancelEventArgs : CancelEventArgs
 	{
-		public PedCancelEventArgs( Ped ped )
+		public PedCancelEventArgs( Element _this, Ped ped )
+			: base( _this )
 		{
 			this.Ped = ped;
 		}

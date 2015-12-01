@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class ElementModelChangeEventArgs : System.EventArgs
+	public class ElementModelChangeEventArgs : ElementEventArgs
 	{
-		public ElementModelChangeEventArgs( int oldModel, int newModel )
+		public ElementModelChangeEventArgs( Element _this, int oldModel, int newModel )
+			: base( _this )
 		{
 			this.OldModel = oldModel;
 			this.NewModel = newModel;

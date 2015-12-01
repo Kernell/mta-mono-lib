@@ -12,6 +12,7 @@ namespace MultiTheftAuto
 
 		public MultiTheftAuto()
 		{
+			Resource.Register<Resource>();
 			Element.Register<Element>();
 		}
 

@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerContactEventArgs : System.EventArgs
+	public class PlayerContactEventArgs : ElementEventArgs
 	{
-		public PlayerContactEventArgs( Element previous, Element current )
+		public PlayerContactEventArgs( Element _this, Element previous, Element current )
+			: base( _this )
 		{
 			this.Previous	= previous;
 			this.Current	= current;
 		}
 
-		Element Previous;
-		Element Current;
+		public Element Previous;
+		public Element Current;
 	}
 }

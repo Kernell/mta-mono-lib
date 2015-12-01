@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PlayerConnectEventArgs : CancelEventArgs
 	{
-		public PlayerConnectEventArgs( string nick, string ip, string username, string serial, int versionNumber, string versionString )
+		public PlayerConnectEventArgs( Element _this, string nick, string ip, string username, string serial, int versionNumber, string versionString )
+			: base( _this )
 		{
 			this.Nick = nick;
 			this.IP = ip;

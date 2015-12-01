@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerSpawnEventArgs : System.EventArgs
+	public class PlayerSpawnEventArgs : ElementEventArgs
 	{
-		public PlayerSpawnEventArgs( float x, float y, float z, float rotation, Team team, int skin, int interior, int dimension )
+		public PlayerSpawnEventArgs( Element _this, float x, float y, float z, float rotation, Team team, int skin, int interior, int dimension )
+			: base( _this )
 		{
 			this.Position	= new Vector3( x, y, z );
 			this.Rotation	= rotation;

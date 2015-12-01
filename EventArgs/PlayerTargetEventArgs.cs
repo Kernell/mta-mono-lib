@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerTargetEventArgs : System.EventArgs
+	public class PlayerTargetEventArgs : ElementEventArgs
 	{
-		public PlayerTargetEventArgs( Element targettedElement )
+		public PlayerTargetEventArgs( Element _this, Element targettedElement )
+			: base( _this )
 		{
 			this.Target = targettedElement;
 		}

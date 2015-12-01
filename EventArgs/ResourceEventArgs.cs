@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class ResourceEventArgs : CancelEventArgs
 	{
-		public ResourceEventArgs( Resource resource )
+		public ResourceEventArgs( Element _this, Resource resource )
+			: base( _this )
 		{
 			this.Resource = resource;
 		}

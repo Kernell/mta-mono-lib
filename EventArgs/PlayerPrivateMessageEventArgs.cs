@@ -8,8 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PlayerPrivateMessageEventArgs : PlayerCancelEventArgs
 	{
-		public PlayerPrivateMessageEventArgs( string message, Player recipient )
-			: base( recipient )
+		public PlayerPrivateMessageEventArgs( Element _this, string message, Player recipient )
+			: base( _this, recipient )
 		{
 			this.Message = message;
 		}

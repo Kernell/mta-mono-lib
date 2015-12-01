@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PedWastedEventArgs : System.EventArgs
+	public class PedWastedEventArgs : ElementEventArgs
 	{
-		public PedWastedEventArgs( int totalAmmo, Element killer, int killerWeapon, int bodypart, bool stealth )
+		public PedWastedEventArgs( Element _this, int totalAmmo, Element killer, int killerWeapon, int bodypart, bool stealth )
+			: base( _this )
 		{
 			this.TotalAmmo		= totalAmmo;
 			this.Killer			= killer;

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerDamageEvetArgs : System.EventArgs
+	public class PlayerDamageEvetArgs : ElementEventArgs
 	{
-		public PlayerDamageEvetArgs( Player attacker, int attackerweapon, int bodypart, float loss )
+		public PlayerDamageEvetArgs( Element _this, Player attacker, int attackerweapon, int bodypart, float loss )
+			: base( _this )
 		{
 			this.Attacker		= attacker;
 			this.AttackerWeapon = attackerweapon;

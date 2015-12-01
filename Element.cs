@@ -42,7 +42,6 @@ namespace MultiTheftAuto
 		public Element( string type, string ID )
 			: this( Native.Element.Create( type, ID ) )
 		{
-
 		}
 
 		#endregion
@@ -53,7 +52,16 @@ namespace MultiTheftAuto
 
 		public bool Destroy()
 		{
-			return Native.Element.Destroy( this.userdata );
+			bool result = Native.Element.Destroy( this.userdata );
+
+			if( result )
+			{
+				this.userdata = 0;
+
+				this.Dispose();
+			}
+
+			return result;
 		}
 
 		public Element Clone( Vector3 position = null, bool cloneChildren = false )
@@ -379,12 +387,20 @@ namespace MultiTheftAuto
 
 		#region Events
 
+		#region Event delegates
+
+		public delegate void ElementEventHandler( Element sender, ElementEventArgs e );
+
+		public delegate void ElementEventHandler<TEventArgs>( Element sender, TEventArgs e );
+
+		#endregion
+
 		#region Client events
 
 		/// <summary>
 		/// This event is triggered when a player types a message into his console. It is also triggered when entering '/' commands via the chatbox.
 		/// </summary>
-		public event EventHandler<ConsoleEventArgs> Console;
+		public event ElementEventHandler<ConsoleEventArgs> OnConsole;
 
 		#endregion
 
@@ -394,81 +410,59 @@ namespace MultiTheftAuto
 		/// This event is triggered when an physical element hits a colshape.
 		/// NOTE: The hit won't be detected if the element that entered the colshape is a colshape.
 		/// </summary>
-		public event EventHandler<ColShapeEventArgs> ColShapeHit;
+		public event ElementEventHandler<ColShapeEventArgs> OnColShapeHit;
 
 		/// <summary>
 		/// This event is triggered when a player or a vehicle leaves a collision shape.
 		/// </summary>
-		public event EventHandler<ColShapeEventArgs> ColShapeLeave;
+		public event ElementEventHandler<ColShapeEventArgs> OnColShapeLeave;
 
 		#endregion
 
 		#region Element events
-
-
-		public delegate void UserdataEventHandler( uint userdata );
 		/// <summary>
 		/// This event is triggered when an element gets destroyed by destroyElement or when the creator resource is stopping.
 		/// It is also triggered when a parent element of this element is destroyed.
 		/// </summary>
-		public event UserdataEventHandler ElementDestroy;
-		//{
-		//	add
-		//	{
-		//		lock( this )
-		//		{
-		//			if( Native.Event.AddHandler( "onElementDestroy", this.userdata, value.Method, false, "normal" ) )
-		//			{
-		//				//this._Console += value;
-		//			}
-		//		}
-		//	}
-		//	remove
-		//	{
-		//		lock( this )
-		//		{
-		//			//this._Console -= value;
-		//		}
-		//	}
-		//}
+		public event ElementEventHandler OnElementDestroy;
 
 		/// <summary>
 		/// This event is triggered when an elementdata entry for an element changes.
 		/// A client can perform this change on the element or it can be done using setElementData.
 		/// </summary>
-		public event EventHandler<ElementDataChangeEventArgs> ElementDataChange;
+		public event ElementEventHandler<ElementDataChangeEventArgs> OnElementDataChange;
 
 		/// <summary>
 		/// This event is triggered when an player or vehicle element collides with a colshape.
 		/// </summary>
-		public event EventHandler<ElementColShapeEventArgs> ElementColShapeHit;
+		public event ElementEventHandler<ElementColShapeEventArgs> OnElementColShapeHit;
 
 		/// <summary>
 		/// This event is triggered when an player or vehicle element leaves the area of a colshape.
 		/// </summary>
-		public event EventHandler<ElementColShapeEventArgs> ElementColShapeLeave;
+		public event ElementEventHandler<ElementColShapeEventArgs> OnElementColShapeLeave;
 
 		/// <summary>
 		/// This event is triggered when an element is clicked on by the client.
 		/// These events can only trigger when the client has its cursor enabled.
 		/// It triggers for all three mousebuttons in both their up and down states.
 		/// </summary>
-		public event EventHandler<ElementClickedEventArgs> ElementClicked;
+		public event ElementEventHandler<ElementClickedEventArgs> OnElementClicked;
 
 		/// <summary>
 		/// This event is triggered when an element becomes synced by a player.
 		/// </summary>
-		public event EventHandler<PlayerEventArgs> ElementStartSync;
+		public event ElementEventHandler<PlayerEventArgs> OnElementStartSync;
 
 		/// <summary>
 		/// This event is triggered when an element is no longer synced by a player.
 		/// </summary>
-		public event EventHandler<PlayerEventArgs> ElementStopSync;
+		public event ElementEventHandler<PlayerEventArgs> OnElementStopSync;
 
 		/// <summary>
 		/// This event is triggered when the model of an element is changed using setElementModel.
 		/// </summary>
-		public event EventHandler<ElementModelChangeEventArgs> ElementModelChange;
+		public event ElementEventHandler<ElementModelChangeEventArgs> OnElementModelChange;
 
 		#endregion
 
@@ -477,12 +471,12 @@ namespace MultiTheftAuto
 		/// <summary>
 		/// This event is triggered when an element enters a marker.
 		/// </summary>
-		public event EventHandler<MarkerEventArgs> MarkerHit;
+		public event ElementEventHandler<MarkerEventArgs> OnMarkerHit;
 
 		/// <summary>
 		/// This event is triggered when an element leaves the area of a marker.
 		/// </summary>
-		public event EventHandler<MarkerEventArgs> MarkerLeave;
+		public event ElementEventHandler<MarkerEventArgs> OnMarkerLeave;
 
 		#endregion
 
@@ -491,17 +485,17 @@ namespace MultiTheftAuto
 		/// <summary>
 		/// This event is triggered when a pickup is spawned or respawned.
 		/// </summary>
-		public event EventHandler PickupSpawn;
+		public event ElementEventHandler OnPickupSpawn;
 
 		/// <summary>
 		/// This event is triggered when a player hits a pickup.
 		/// </summary>
-		public event EventHandler<PlayerCancelEventArgs> PickupHit;
+		public event ElementEventHandler<PlayerCancelEventArgs> OnPickupHit;
 
 		/// <summary>
 		/// This event is triggered when a player stands on a pickup while not in a vehicle.
 		/// </summary>
-		public event EventHandler<PlayerCancelEventArgs> PickupUse;
+		public event ElementEventHandler<PlayerCancelEventArgs> OnPickupUse;
 
 		#endregion
 
@@ -510,154 +504,154 @@ namespace MultiTheftAuto
 		/// <summary>
 		/// This event is triggered when a player added a ban (like onBan).
 		/// </summary>
-		public event EventHandler<PlayerBanEventArgs> PlayerBan;
+		public event ElementEventHandler<PlayerBanEventArgs> OnPlayerBan;
 
 		/// <summary>
 		/// This event is triggered when a player chats inside the chat box.
 		/// </summary>
-		public event EventHandler<PlayerChatEventArgs> PlayerChat;
+		public event ElementEventHandler<PlayerChatEventArgs> OnPlayerChat;
 
 		/// <summary>
 		/// This event is triggered when a player sends a private message with msg command.
 		/// </summary>
-		public event EventHandler<PlayerPrivateMessageEventArgs> PlayerPrivateMessage;
+		public event ElementEventHandler<PlayerPrivateMessageEventArgs> OnPlayerPrivateMessage;
 
 		/// <summary>
 		/// This event is triggered when a player attempts to connect to the server.
 		/// </summary>
-		public event EventHandler<PlayerConnectEventArgs> PlayerConnect;
+		public event ElementEventHandler<PlayerConnectEventArgs> OnPlayerConnect;
 
 		/// <summary>
 		/// This event is triggered when a player changes his nickname.
 		/// </summary>
-		public event EventHandler<PlayerChangeNickEventArgs> PlayerChangeNick;
+		public event ElementEventHandler<PlayerChangeNickEventArgs> OnPlayerChangeNick;
 
 		/// <summary>
 		/// This event is triggered when a player logs into their account in-game.
 		/// </summary>
-		public event EventHandler<PlayerLoginEventArgs> PlayerLogin;
+		public event ElementEventHandler<PlayerLoginEventArgs> OnPlayerLogin;
 
 		/// <summary>
 		/// This event is triggered when a user logs out of their account in-game.
 		/// </summary>
-		public event EventHandler<PlayerLogoutEventArgs> PlayerLogout;
+		public event ElementEventHandler<PlayerLogoutEventArgs> OnPlayerLogout;
 
 		/// <summary>
 		/// This event is triggered when a player is damaged, in any way.
 		/// </summary>
-		public event EventHandler<PlayerDamageEvetArgs> PlayerDamage;
+		public event ElementEventHandler<PlayerDamageEvetArgs> OnPlayerDamage;
 
 		/// <summary>
 		/// This event is triggered when a player joins the server.
 		/// </summary>
-		public event EventHandler PlayerJoin;
+		public event ElementEventHandler OnPlayerJoin;
 
 		/// <summary>
 		/// This event is triggered when a player disconnects from the server.
 		/// </summary>
-		public event EventHandler<PlayerQuitEventArgs> PlayerQuit;
+		public event ElementEventHandler<PlayerQuitEventArgs> OnPlayerQuit;
 
 		/// <summary>
 		/// This event is called when a player spawns.
 		/// </summary>
-		public event EventHandler<PlayerSpawnEventArgs> PlayerSpawn;
+		public event ElementEventHandler<PlayerSpawnEventArgs> OnPlayerSpawn;
 
 		/// <summary>
 		/// This event is triggered when a player is killed or dies.
 		/// </summary>
-		public event EventHandler<PedWastedEventArgs> PlayerWasted;
+		public event ElementEventHandler<PedWastedEventArgs> OnPlayerWasted;
 
 		/// <summary>
 		/// This event is triggered when a player targets an element with his crosshair while aiming, or simply facing it while standing close.
 		/// It's triggered again when the player no longer targets anything.
 		/// </summary>
-		public event EventHandler<PlayerTargetEventArgs> PlayerTarget;
+		public event ElementEventHandler<PlayerTargetEventArgs> OnPlayerTarget;
 
 		/// <summary>
 		/// This event is triggered when a player enters a vehicle.
 		/// </summary>
-		public event EventHandler<PlayerVehicleEnterEventArgs> PlayerVehicleEnter;
+		public event ElementEventHandler<PlayerVehicleEnterEventArgs> OnPlayerVehicleEnter;
 
 		/// <summary>
 		/// This event is triggered when a player leaves a vehicle, for whatever reason.
 		/// </summary>
-		public event EventHandler<PlayerVehicleEnterEventArgs> PlayerVehicleExit;
+		public event ElementEventHandler<PlayerVehicleEnterEventArgs> OnPlayerVehicleExit;
 
 		/// <summary>
 		/// This event is triggered whenever a player's equipped weapon slot changes.
 		/// This means giveWeapon and takeWeapon will trigger this function if the equipped slot is forced to change.
 		/// </summary>
-		public event EventHandler<PedWeaponSwitchEventArgs> PlayerWeaponSwitch;
+		public event ElementEventHandler<PedWeaponSwitchEventArgs> OnPlayerWeaponSwitch;
 
 		/// <summary>
 		/// This event is triggered when a player hits a marker.
 		/// </summary>
-		public event EventHandler<PlayerMarkerEventArgs> PlayerMarkerHit;
+		public event ElementEventHandler<PlayerMarkerEventArgs> OnPlayerMarkerHit;
 
 		/// <summary>
 		/// This event is triggered when a player leaves the area of a marker.
 		/// </summary>
-		public event EventHandler<PlayerMarkerEventArgs> PlayerMarkerLeave;
+		public event ElementEventHandler<PlayerMarkerEventArgs> OnPlayerMarkerLeave;
 
 		/// <summary>
 		/// This event is triggered when a player hits a pickup.
 		/// </summary>
-		public event EventHandler<PlayerPickupHitEventArgs> PlayerPickupHit;
+		public event ElementEventHandler<PlayerPickupHitEventArgs> OnPlayerPickupHit;
 
 		/// <summary>
 		/// This event is triggered when a player is standing on a pickup while not being in a vehicle.
 		/// </summary>
-		public event EventHandler<PlayerPickupUseEventArgs> PlayerPickupUse;
+		public event ElementEventHandler<PlayerPickupUseEventArgs> OnPlayerPickupUse;
 
 		/// <summary>
 		/// This event is triggered when a player clicks using the mouse cursor.
 		/// </summary>
-		public event EventHandler<PlayerClickEventArgs> PlayerClick;
+		public event ElementEventHandler<PlayerClickEventArgs> OnPlayerClick;
 
 		/// <summary>
 		/// This event is triggered when a player stands on a different element than before.
 		/// </summary>
-		public event EventHandler<PlayerContactEventArgs> PlayerContact;
+		public event ElementEventHandler<PlayerContactEventArgs> OnPlayerContact;
 
 		/// <summary>
 		/// This event is triggered when a player stealth kills another player.
 		/// </summary>
-		public event EventHandler<PedCancelEventArgs> PlayerStealthKill;
+		public event ElementEventHandler<PedCancelEventArgs> OnPlayerStealthKill;
 
 		/// <summary>
 		/// This event is triggered when a player has been muted by setPlayerMuted.
 		/// </summary>
-		public event EventHandler<CancelEventArgs> PlayerMute;
+		public event ElementEventHandler<CancelEventArgs> OnPlayerMute;
 
 		/// <summary>
 		/// This event is triggered when a player has been unmuted by setPlayerMuted.
 		/// </summary>
-		public event EventHandler<CancelEventArgs> PlayerUnmute;
+		public event ElementEventHandler<CancelEventArgs> OnPlayerUnmute;
 
 		/// <summary>
 		/// This event is triggered when a player issues a command.
 		/// </summary>
-		public event EventHandler<PlayerCommandEventArgs> PlayerCommand;
+		public event ElementEventHandler<PlayerCommandEventArgs> OnPlayerCommand;
 
 		/// <summary>
 		/// This event is triggered when a player has modified certain files.
 		/// </summary>
-		public event EventHandler<PlayerModInfoEventArgs> PlayerModInfo;
+		public event ElementEventHandler<PlayerModInfoEventArgs> OnPlayerModInfo;
 
 		/// <summary>
 		/// This event is triggered when a player starts talking through voice chat.
 		/// </summary>
-		public event EventHandler<CancelEventArgs> PlayerVoiceStart;
+		public event ElementEventHandler<CancelEventArgs> OnPlayerVoiceStart;
 
 		/// <summary>
 		/// This event is triggered when a player stops talking through voice chat
 		/// </summary>
-		public event EventHandler PlayerVoiceStop;
+		public event ElementEventHandler OnPlayerVoiceStop;
 
 		/// <summary>
 		/// This event is triggered when the screen capture requested by takePlayerScreenShot has completed.
 		/// </summary>
-		public event EventHandler<PlayerScreenShotEventArgs> PlayerScreenShot;
+		public event ElementEventHandler<PlayerScreenShotEventArgs> OnPlayerScreenShot;
 
 		#endregion
 
@@ -666,12 +660,12 @@ namespace MultiTheftAuto
 		/// <summary>
 		/// This event is triggered when a ped is killed or dies. It is not triggered for players.
 		/// </summary>
-		public event EventHandler<PedWastedEventArgs> PedWasted;
+		public event ElementEventHandler<PedWastedEventArgs> OnPedWasted;
 
 		/// <summary>
 		/// This event is triggered when a ped switches weapons.
 		/// </summary>
-		public event EventHandler<PedWeaponSwitchEventArgs> PedWeaponSwitch;
+		public event ElementEventHandler<PedWeaponSwitchEventArgs> OnPedWeaponSwitch;
 
 		#endregion
 
@@ -680,12 +674,12 @@ namespace MultiTheftAuto
 		/// <summary>
 		/// This event is triggered when a resource is started.
 		/// </summary>
-		public event EventHandler<ResourceEventArgs> ResourceStart;
+		public event ElementEventHandler<ResourceEventArgs> OnResourceStart;
 
 		/// <summary>
 		/// Analogous to onResourceStart, but triggered before script files are initialised.
 		/// </summary>
-		public event EventHandler<ResourceEventArgs> ResourcePreStart;
+		public event ElementEventHandler<ResourceEventArgs> OnResourcePreStart;
 
 		/// <summary>
 		/// This event is triggered when the resource is stopped. This can occur for a number of reasons:
@@ -694,38 +688,38 @@ namespace MultiTheftAuto
 		/// * The resource was modified (the resource will automatically restart)
 		/// * Another resource stopped it using stopResource.
 		/// </summary>
-		public event EventHandler<ResourceEventArgs> ResourceStop;
+		public event ElementEventHandler<ResourceEventArgs> OnResourceStop;
 
 		#endregion
 
 		#region Server events
 
-		public event EventHandler<BanEventArgs> Ban;
-		public event EventHandler<DebugMessageEventArgs> DebugMessage;
-		public event EventHandler<SettingChangeEventArgs> SettingChange;
-		public event EventHandler<AccountDataChangeEventArgs> AccountDataChange;
-		public event EventHandler<UnbanEventArgs> Unban;
-		public event EventHandler<ChatMessageEventArgs> ChatMessage;
+		public event ElementEventHandler<BanEventArgs> OnBan;
+		public event ElementEventHandler<DebugMessageEventArgs> OnDebugMessage;
+		public event ElementEventHandler<SettingChangeEventArgs> OnSettingChange;
+		public event ElementEventHandler<AccountDataChangeEventArgs> OnAccountDataChange;
+		public event ElementEventHandler<UnbanEventArgs> OnUnban;
+		public event ElementEventHandler<ChatMessageEventArgs> OnChatMessage;
 
 		#endregion
 
 		#region Vehicle events
 
-		public event EventHandler<VehicleEventArgs> TrailerAttach;
-		public event EventHandler<VehicleEventArgs> TrailerDetach;
-		public event EventHandler<VehicleDamageEventArgs> VehicleDamage;
-		public event EventHandler<VehicleRespawnEventArgs> VehicleRespawn;
-		public event EventHandler<VehicleStartEnterEventArgs> VehicleStartEnter;
-		public event EventHandler<VehicleStartEnterEventArgs> VehicleStartExit;
-		public event EventHandler<VehicleEnterEventArgs> VehicleEnter;
-		public event EventHandler<VehicleEnterEventArgs> VehicleExit;
-		public event EventHandler VehicleExplode;
+		public event ElementEventHandler<VehicleEventArgs> OnTrailerAttach;
+		public event ElementEventHandler<VehicleEventArgs> OnTrailerDetach;
+		public event ElementEventHandler<VehicleDamageEventArgs> OnVehicleDamage;
+		public event ElementEventHandler<VehicleRespawnEventArgs> OnVehicleRespawn;
+		public event ElementEventHandler<VehicleStartEnterEventArgs> OnVehicleStartEnter;
+		public event ElementEventHandler<VehicleStartEnterEventArgs> OnVehicleStartExit;
+		public event ElementEventHandler<VehicleEnterEventArgs> OnVehicleEnter;
+		public event ElementEventHandler<VehicleEnterEventArgs> OnVehicleExit;
+		public event ElementEventHandler OnVehicleExplode;
 
 		#endregion
 
 		#region Weapon events
 
-		public event EventHandler<CancelEventArgs> WeaponFire;
+		public event ElementEventHandler<CancelEventArgs> OnWeaponFire;
 
 		#endregion
 
@@ -735,157 +729,588 @@ namespace MultiTheftAuto
 
 		#region Client events
 
-		//public static void OnConsole( UInt32 source, string message )
-		//{
-		//	Player player = Element.FindOrCreate( source ) as Player;
-
-		//	if( player.Console != null )
-		//	{
-		//		ConsoleEventArgs e = new ConsoleEventArgs( message );
-
-		//		player.Console( player, e );
-		//	}
-		//}
+		private void raise_OnConsole( Player sender, string message )
+		{
+			if( this.OnConsole != null )
+			{
+				this.OnConsole( sender, new ConsoleEventArgs( this, message ) );
+			}
+		}
 
 		#endregion
 
 		#region Colshape events
 
-		public static void OnColShapeHit( UInt32 source, UInt32 hit, bool matchingDimension )
+		private void raise_OnColShapeHit( Element sender, Element hitElement, bool matchingDimension )
 		{
-			Element sourceElement	= Element.FindOrCreate( source );
-
-			if( sourceElement.ColShapeHit != null )
+			if( this.OnColShapeHit != null )
 			{
-				Element hitElement = Element.FindOrCreate( hit );
-
-				ColShapeEventArgs e = new ColShapeEventArgs( hitElement, matchingDimension );
-
-				sourceElement.ColShapeHit( sourceElement, e );
+				this.OnColShapeHit( sender, new ColShapeEventArgs( this, hitElement, matchingDimension ) );
 			}
 		}
 
-		public event EventHandler OnColShapeLeave;
+		private void raise_OnColShapeLeave( Element sender, Element hitElement, bool matchingDimension )
+		{
+			if( this.OnColShapeLeave != null )
+			{
+				this.OnColShapeLeave( sender, new ColShapeEventArgs( this, hitElement, matchingDimension ) );
+			}
+		}
 
 		#endregion
 
 		#region Element events
 
-		//public static void OnElementDestroy( UInt32 source )
-		//{
-		//	Player player = Element.FindOrCreate( source ) as Player;
+		private void raise_OnElementDestroy( Element sender )
+		{
+			if( this.OnElementDestroy != null )
+			{
+				this.OnElementDestroy( sender, new ElementEventArgs( this ) );
+			}
+		}
 
-		//	if( player.Console != null )
-		//	{
-		//		System.EventArgs e = new System.EventArgs();
+		private void raise_OnElementDataChange( Element sender, Player client, string name, dynamic oldValue )
+		{
+			if( this.OnElementDataChange != null )
+			{
+				this.OnElementDataChange( sender, new ElementDataChangeEventArgs( this, client, name, oldValue ) );
+			}
+		}
 
-		//		player.ElementDestroy( player, e );
-		//	}
-		//}
+		private void raise_OnElementColShapeHit( Element sender, ColShape colShape, bool matchingDimension )
+		{
+			if( this.OnElementColShapeHit != null )
+			{
+				this.OnElementColShapeHit( sender, new ElementColShapeEventArgs( this, colShape, matchingDimension ) );
+			}
+		}
 
-		public event EventHandler OnElementDataChange;
-		public event EventHandler OnElementColShapeHit;
-		public event EventHandler OnElementColShapeLeave;
-		public event EventHandler OnElementClicked;
-		public event EventHandler OnElementStartSync;
-		public event EventHandler OnElementStopSync;
-		public event EventHandler OnElementModelChange;
+		private void raise_OnElementColShapeLeave( Element sender, ColShape colShape, bool matchingDimension )
+		{
+			if( this.OnElementColShapeLeave != null )
+			{
+				this.OnElementColShapeLeave( sender, new ElementColShapeEventArgs( this, colShape, matchingDimension ) );
+			}
+		}
+
+		private void raise_OnElementClicked( Element sender, string mouseButton, string buttonState, Player whoClicked, float clickPosX, float clickPosY, float clickPosZ )
+		{
+			if( this.OnElementClicked != null )
+			{
+				this.OnElementClicked( sender, new ElementClickedEventArgs( this, mouseButton, buttonState, whoClicked, clickPosX, clickPosY, clickPosZ ) );
+			}
+		}
+
+		private void raise_OnElementStartSync( Element sender, Player newSyncer )
+		{
+			if( this.OnElementStartSync != null )
+			{
+				this.OnElementStartSync( sender, new PlayerEventArgs( this, newSyncer ) );
+			}
+		}
+
+		private void raise_OnElementStopSync( Element sender, Player player )
+		{
+			if( this.OnElementStopSync != null )
+			{
+				this.OnElementStopSync( sender, new PlayerEventArgs( this, player ) );
+			}
+		}
+
+		private void raise_OnElementModelChange( Element sender, int oldModel, int newModel )
+		{
+			if( this.OnElementModelChange != null )
+			{
+				this.OnElementModelChange( sender, new ElementModelChangeEventArgs( this, oldModel, newModel ) );
+			}
+		}
 
 		#endregion
 
 		#region Marker events
 
-		public event EventHandler OnMarkerHit;
-		public event EventHandler OnMarkerLeave;
+		private void raise_OnMarkerHit( Element sender, Element element, bool matchingDimension )
+		{
+			if( this.OnMarkerHit != null )
+			{
+				this.OnMarkerHit( sender, new MarkerEventArgs( this, element, matchingDimension ) );
+			}
+		}
+
+		private void raise_OnMarkerLeave( Element sender, Element element, bool matchingDimension )
+		{
+			if( this.OnMarkerLeave != null )
+			{
+				this.OnMarkerLeave( sender, new MarkerEventArgs( this, element, matchingDimension ) );
+			}
+		}
+
 
 		#endregion
 
 		#region Pickup events
 
-		public event EventHandler OnPickupSpawn;
-		public event EventHandler OnPickupHit;
-		public event EventHandler OnPickupUse;
+		private void raise_OnPickupSpawn( Element sender )
+		{
+			if( this.OnPickupSpawn != null )
+			{
+				this.OnPickupSpawn( sender, new ElementEventArgs( this ) );
+			}
+		}
+		private void raise_OnPickupHit( Element sender, Player player )
+		{
+			if( this.OnPickupHit != null )
+			{
+				this.OnPickupHit( sender, new PlayerCancelEventArgs( this, player ) );
+			}
+		}
+		private void raise_OnPickupUse( Element sender, Player player )
+		{
+			if( this.OnPickupUse != null )
+			{
+				this.OnPickupUse( sender, new PlayerCancelEventArgs( this, player ) );
+			}
+		}
 
 		#endregion
 
 		#region Player events
 
-		public event EventHandler OnPlayerBan;
-		public event EventHandler OnPlayerChat;
-		public event EventHandler OnPlayerPrivateMessage;
-		public event EventHandler OnPlayerConnect;
-		public event EventHandler<PlayerChangeNickEventArgs> OnPlayerChangeNick;
-		public event EventHandler OnPlayerLogin;
-		public event EventHandler OnPlayerLogout;
-		public event EventHandler OnPlayerDamage;
-		public event EventHandler<PlayerEventArgs> OnPlayerJoin;
-		public event EventHandler<PlayerQuitEventArgs> OnPlayerQuit;
-		public event EventHandler OnPlayerSpawn;
-		public event EventHandler OnPlayerWasted;
-		public event EventHandler OnPlayerTarget;
-		public event EventHandler OnPlayerVehicleEnter;
-		public event EventHandler OnPlayerVehicleExit;
-		public event EventHandler OnPlayerWeaponSwitch;
-		public event EventHandler OnPlayerMarkerHit;
-		public event EventHandler OnPlayerMarkerLeave;
-		public event EventHandler OnPlayerPickupHit;
-		public event EventHandler OnPlayerPickupUse;
-		public event EventHandler OnPlayerClick;
-		public event EventHandler OnPlayerContact;
-		public event EventHandler OnPlayerStealthKill;
-		public event EventHandler OnPlayerMute;
-		public event EventHandler OnPlayerUnmute;
-		public event EventHandler OnPlayerCommand;
-		public event EventHandler<PlayerModInfoEventArgs> OnPlayerModInfo;
-		public event EventHandler OnPlayerVoiceStart;
-		public event EventHandler OnPlayerVoiceStop;
-		public event EventHandler OnPlayerScreenShot;
+		private void raise_OnPlayerBan( Element sender, Ban banPointer, Player responsibleElement )
+		{
+			if( this.OnPlayerBan != null )
+			{
+				this.OnPlayerBan( sender, new PlayerBanEventArgs( this, banPointer, responsibleElement ) );
+			}
+		}
+
+		private void raise_OnPlayerChat( Element sender, string message, int messageType )
+		{
+			if( this.OnPlayerChat != null )
+			{
+				this.OnPlayerChat( sender, new PlayerChatEventArgs( this, message, messageType ) );
+			}
+		}
+
+		private void raise_OnPlayerPrivateMessage( Element sender, string message, Player recipient )
+		{
+			if( this.OnPlayerPrivateMessage != null )
+			{
+				this.OnPlayerPrivateMessage( sender, new PlayerPrivateMessageEventArgs( this, message, recipient ) );
+			}
+		}
+
+		private void raise_OnPlayerConnect( Element sender, string nick, string ip, string username, string serial, int versionNumber, string versionString )
+		{
+			if( this.OnPlayerConnect != null )
+			{
+				this.OnPlayerConnect( sender, new PlayerConnectEventArgs( this, nick, ip, username, serial, versionNumber, versionString ) );
+			}
+		}
+
+		private void raise_OnPlayerChangeNick( Element sender, string oldNick, string newNick )
+		{
+			if( this.OnPlayerChangeNick != null )
+			{
+				this.OnPlayerChangeNick( sender, new PlayerChangeNickEventArgs( this, oldNick, newNick ) );
+			}
+		}
+
+		private void raise_OnPlayerLogin( Element sender, Account previousAccount, Account currentAccount, bool autoLogin )
+		{
+			if( this.OnPlayerLogin != null )
+			{
+				this.OnPlayerLogin( sender, new PlayerLoginEventArgs( this, previousAccount, currentAccount, autoLogin ) );
+			}
+		}
+
+		private void raise_OnPlayerLogout( Element sender, Account previousAccount, Account currentAccount )
+		{
+			if( this.OnPlayerLogout != null )
+			{
+				this.OnPlayerLogout( sender, new PlayerLogoutEventArgs( this, previousAccount, currentAccount ) );
+			}
+		}
+
+		private void raise_OnPlayerDamage( Element sender, Player attacker, int attackerweapon, int bodypart, float loss )
+		{
+			if( this.OnPlayerDamage != null )
+			{
+				this.OnPlayerDamage( sender, new PlayerDamageEvetArgs( this, attacker, attackerweapon, bodypart, loss ) );
+			}
+		}
+
+		private void raise_OnPlayerJoin( Element sender )
+		{
+			if( this.OnPlayerJoin != null )
+			{
+				this.OnPlayerJoin( sender, new ElementEventArgs( this ) );
+			}
+		}
+
+		private void raise_OnPlayerQuit( Element sender, string type, string reason, Player responsePlayer )
+		{
+			if( this.OnPlayerQuit != null )
+			{
+				this.OnPlayerQuit( sender, new PlayerQuitEventArgs( this, type, reason, responsePlayer ) );
+			}
+		}
+
+		private void raise_OnPlayerSpawn( Element sender, float x, float y, float z, float rotation, Team team, int skin, int interior, int dimension )
+		{
+			if( this.OnPlayerSpawn != null )
+			{
+				this.OnPlayerSpawn( sender, new PlayerSpawnEventArgs( this, x, y, z, rotation, team, skin, interior, dimension ) );
+			}
+		}
+
+		private void raise_OnPlayerWasted( Element sender, int totalAmmo, Element killer, int killerWeapon, int bodypart, bool stealth )
+		{
+			if( this.OnPlayerWasted != null )
+			{
+				this.OnPlayerWasted( sender, new PedWastedEventArgs( this, totalAmmo, killer, killerWeapon, bodypart, stealth ) );
+			}
+		}
+
+		private void raise_OnPlayerTarget( Element sender, Element targettedElement )
+		{
+			if( this.OnPlayerTarget != null )
+			{
+				this.OnPlayerTarget( sender, new PlayerTargetEventArgs( this, targettedElement ) );
+			}
+		}
+
+		private void raise_OnPlayerVehicleEnter( Element sender, Vehicle vehicle, int seat, Player jacker )
+		{
+			if( this.OnPlayerVehicleEnter != null )
+			{
+				this.OnPlayerVehicleEnter( sender, new PlayerVehicleEnterEventArgs( this, vehicle, seat, jacker ) );
+			}
+		}
+
+		private void raise_OnPlayerVehicleExit( Element sender, Vehicle vehicle, int seat, Player jacker )
+		{
+			if( this.OnPlayerVehicleExit != null )
+			{
+				this.OnPlayerVehicleExit( sender, new PlayerVehicleEnterEventArgs( this, vehicle, seat, jacker ) );
+			}
+		}
+
+		private void raise_OnPlayerWeaponSwitch( Element sender, int previousWeaponID, int currentWeaponID )
+		{
+			if( this.OnPlayerWeaponSwitch != null )
+			{
+				this.OnPlayerWeaponSwitch( sender, new PedWeaponSwitchEventArgs( this, previousWeaponID, currentWeaponID ) );
+			}
+		}
+
+		private void raise_OnPlayerMarkerHit( Element sender, Marker marker, bool matchingDimension )
+		{
+			if( this.OnPlayerMarkerHit != null )
+			{
+				this.OnPlayerMarkerHit( sender, new PlayerMarkerEventArgs( this, marker, matchingDimension ) );
+			}
+		}
+
+		private void raise_OnPlayerMarkerLeave( Element sender, Marker marker, bool matchingDimension )
+		{
+			if( this.OnPlayerMarkerLeave != null )
+			{
+				this.OnPlayerMarkerLeave( sender, new PlayerMarkerEventArgs( this, marker, matchingDimension ) );
+			}
+		}
+
+		private void raise_OnPlayerPickupHit( Element sender, Pickup pickup, bool matchingDimension )
+		{
+			if( this.OnPlayerPickupHit != null )
+			{
+				this.OnPlayerPickupHit( sender, new PlayerPickupHitEventArgs( this, pickup, matchingDimension ) );
+			}
+		}
+
+		private void raise_OnPlayerPickupUse( Element sender, Pickup pickup )
+		{
+			if( this.OnPlayerPickupUse != null )
+			{
+				this.OnPlayerPickupUse( sender, new PlayerPickupUseEventArgs( this, pickup ) );
+			}
+		}
+
+		private void raise_OnPlayerClick( Element sender, string mouseButton, string buttonState, Element clickedElement, float worldX, float worldY, float worldZ, float screenX, float screenY )
+		{
+			if( this.OnPlayerClick != null )
+			{
+				this.OnPlayerClick( sender, new PlayerClickEventArgs( this, mouseButton, buttonState, clickedElement, worldX, worldY, worldZ, screenX, screenY ) );
+			}
+		}
+
+		private void raise_OnPlayerContact( Element sender, Element previous, Element current )
+		{
+			if( this.OnPlayerContact != null )
+			{
+				this.OnPlayerContact( sender, new PlayerContactEventArgs( this, previous, current ) );
+			}
+		}
+
+		private void raise_OnPlayerStealthKill( Element sender, Ped ped )
+		{
+			if( this.OnPlayerStealthKill != null )
+			{
+				this.OnPlayerStealthKill( sender, new PedCancelEventArgs( this, ped ) );
+			}
+		}
+
+		private void raise_OnPlayerMute( Element sender )
+		{
+			if( this.OnPlayerMute != null )
+			{
+				this.OnPlayerMute( sender, new CancelEventArgs( this ) );
+			}
+		}
+
+		private void raise_OnPlayerUnmute( Element sender )
+		{
+			if( this.OnPlayerUnmute != null )
+			{
+				this.OnPlayerUnmute( sender, new CancelEventArgs( this ) );
+			}
+		}
+
+		private void raise_OnPlayerCommand( Element sender, string command )
+		{
+			if( this.OnPlayerCommand != null )
+			{
+				this.OnPlayerCommand( sender, new PlayerCommandEventArgs( this, command ) );
+			}
+		}
+
+		private void raise_OnPlayerModInfo( Element sender, string filename, PlayerModInfo [] list )
+		{
+			if( this.OnPlayerModInfo != null )
+			{
+				this.OnPlayerModInfo( sender, new PlayerModInfoEventArgs( this, filename, list ) );
+			}
+		}
+
+		private void raise_OnPlayerVoiceStart( Element sender )
+		{
+			if( this.OnPlayerVoiceStart != null )
+			{
+				this.OnPlayerVoiceStart( sender, new CancelEventArgs( this ) );
+			}
+		}
+
+		private void raise_OnPlayerVoiceStop( Element sender )
+		{
+			if( this.OnPlayerVoiceStop != null )
+			{
+				this.OnPlayerVoiceStop( sender, new ElementEventArgs( this ) );
+			}
+		}
+
+		private void raise_OnPlayerScreenShot( Element sender, Resource resource, string status, string imageData, int timestamp, string tag )
+		{
+			if( this.OnPlayerScreenShot != null )
+			{
+				this.OnPlayerScreenShot( sender, new PlayerScreenShotEventArgs( this, resource, status, imageData, timestamp, tag ) );
+			}
+		}
 
 		#endregion
 
 		#region Ped events
 
-		public event EventHandler OnPedWasted;
-		public event EventHandler OnPedWeaponSwitch;
+		private void raise_OnPedWasted( Element sender, int totalAmmo, Element killer, int killerWeapon, int bodypart, bool stealth )
+		{
+			if( this.OnPedWasted != null )
+			{
+				this.OnPedWasted( sender, new PedWastedEventArgs( this, totalAmmo, killer, killerWeapon, bodypart, stealth ) );
+			}
+		}
+
+		private void raise_OnPedWeaponSwitch( Element sender, int previousWeaponID, int currentWeaponID )
+		{
+			if( this.OnPedWeaponSwitch != null )
+			{
+				this.OnPedWeaponSwitch( sender, new PedWeaponSwitchEventArgs( this, previousWeaponID, currentWeaponID ) );
+			}
+		}
 
 		#endregion
 
 		#region Resource events
 
-		public event EventHandler OnResourceStart;
-		public event EventHandler OnResourcePreStart;
-		public event EventHandler OnResourceStop;
+		private void raise_OnResourceStart( Element sender, Resource resource )
+		{
+			if( this.OnResourceStart != null )
+			{
+				this.OnResourceStart( sender, new ResourceEventArgs( this, resource ) );
+			}
+		}
+
+		private void raise_OnResourcePreStart( Element sender, Resource resource )
+		{
+			if( this.OnResourcePreStart != null )
+			{
+				this.OnResourcePreStart( sender, new ResourceEventArgs( this, resource ) );
+			}
+		}
+
+		private void raise_OnResourceStop( Element sender, Resource resource )
+		{
+			if( this.OnResourceStop != null )
+			{
+				this.OnResourceStop( sender, new ResourceEventArgs( this, resource ) );
+			}
+		}
 
 		#endregion
 
 		#region Server events
 
-		public event EventHandler OnBan;
-		public event EventHandler OnDebugMessage;
-		public event EventHandler OnSettingChange;
-		public event EventHandler OnAccountDataChange;
-		public event EventHandler OnUnban;
-		public event EventHandler OnChatMessage;
+		private void raise_OnBan( Element sender, Ban ban )
+		{
+			if( this.OnBan != null )
+			{
+				this.OnBan( sender, new BanEventArgs( this, ban ) );
+			}
+		}
+
+		private void raise_OnDebugMessage( Element sender, string message, int level, string file, int line )
+		{
+			if( this.OnDebugMessage != null )
+			{
+				this.OnDebugMessage( sender, new DebugMessageEventArgs( this, message, level, file, line ) );
+			}
+		}
+
+		private void raise_OnSettingChange( Element sender, string setting, string oldValue, string newValue )
+		{
+			if( this.OnSettingChange != null )
+			{
+				this.OnSettingChange( sender, new SettingChangeEventArgs( this, setting, oldValue, newValue ) );
+			}
+		}
+
+		private void raise_OnAccountDataChange( Element sender, Account account, string key, dynamic value )
+		{
+			if( this.OnAccountDataChange != null )
+			{
+				this.OnAccountDataChange( sender, new AccountDataChangeEventArgs( this, account, key, value ) );
+			}
+		}
+
+		private void raise_OnUnban( Element sender, Ban ban, Player responsibleElement )
+		{
+			if( this.OnUnban != null )
+			{
+				this.OnUnban( sender, new UnbanEventArgs( this, ban, responsibleElement ) );
+			}
+		}
+
+		private void raise_OnChatMessage( Element sender, string message, Element element )
+		{
+			if( this.OnChatMessage != null )
+			{
+				this.OnChatMessage( sender, new ChatMessageEventArgs( this, message, element ) );
+			}
+		}
+		
+		private void raise_OnChatMessage( Element sender, string message, Resource resource )
+		{
+			if( this.OnChatMessage != null )
+			{
+				this.OnChatMessage( sender, new ChatMessageEventArgs( this, message, resource ) );
+			}
+		}
 
 		#endregion
 
 		#region Vehicle events
 
-		public event EventHandler OnTrailerAttach;
-		public event EventHandler OnTrailerDetach;
-		public event EventHandler OnVehicleDamage;
-		public event EventHandler OnVehicleRespawn;
-		public event EventHandler OnVehicleStartEnter;
-		public event EventHandler OnVehicleStartExit;
-		public event EventHandler OnVehicleEnter;
-		public event EventHandler OnVehicleExit;
-		public event EventHandler OnVehicleExplode;
+		private void raise_OnTrailerAttach( Element sender, Vehicle vehicle )
+		{
+			if( this.OnTrailerAttach != null )
+			{
+				this.OnTrailerAttach( sender, new VehicleEventArgs( this, vehicle ) );
+			}
+		}
+
+		private void raise_OnTrailerDetach( Element sender, Vehicle vehicle )
+		{
+			if( this.OnTrailerDetach != null )
+			{
+				this.OnTrailerDetach( sender, new VehicleEventArgs( this, vehicle ) );
+			}
+		}
+
+		private void raise_OnVehicleDamage( Element sender, float loss )
+		{
+			if( this.OnVehicleDamage != null )
+			{
+				this.OnVehicleDamage( sender, new VehicleDamageEventArgs( this, loss ) );
+			}
+		}
+
+		private void raise_OnVehicleRespawn( Element sender, bool exploded )
+		{
+			if( this.OnVehicleRespawn != null )
+			{
+				this.OnVehicleRespawn( sender, new VehicleRespawnEventArgs( this, exploded ) );
+			}
+		}
+
+		private void raise_OnVehicleStartEnter( Element sender, Player player, int seat, Player jacked, int door )
+		{
+			if( this.OnVehicleStartEnter != null )
+			{
+				this.OnVehicleStartEnter( sender, new VehicleStartEnterEventArgs( this, player, seat, jacked, door ) );
+			}
+		}
+
+		private void raise_OnVehicleStartExit( Element sender, Player player, int seat, Player jacked, int door )
+		{
+			if( this.OnVehicleStartExit != null )
+			{
+				this.OnVehicleStartExit( sender, new VehicleStartEnterEventArgs( this, player, seat, jacked, door ) );
+			}
+		}
+
+		private void raise_OnVehicleEnter( Element sender, Player player, int seat, Player jacked )
+		{
+			if( this.OnVehicleEnter != null )
+			{
+				this.OnVehicleEnter( sender, new VehicleEnterEventArgs( this, player, seat, jacked ) );
+			}
+		}
+
+		private void raise_OnVehicleExit( Element sender, Player player, int seat, Player jacked )
+		{
+			if( this.OnVehicleExit != null )
+			{
+				this.OnVehicleExit( sender, new VehicleEnterEventArgs( this, player, seat, jacked ) );
+			}
+		}
+
+		private void raise_OnVehicleExplode( Element sender )
+		{
+			if( this.OnVehicleExplode != null )
+			{
+				this.OnVehicleExplode( sender, new ElementEventArgs( this ) );
+			}
+		}
 
 		#endregion
 
 		#region Weapon events
 
-		public event EventHandler OnWeaponFire;
+		private void raise_OnWeaponFire( Element sender )
+		{
+			if( this.OnWeaponFire != null )
+			{
+				this.OnWeaponFire( sender, new CancelEventArgs( this ) );
+			}
+		}
 
 		#endregion
 

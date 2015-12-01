@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PlayerCommandEventArgs : CancelEventArgs
 	{
-		public PlayerCommandEventArgs( string command )
+		public PlayerCommandEventArgs( Element _this, string command )
+			: base( _this )
 		{
 			this.Command = command;
 		}

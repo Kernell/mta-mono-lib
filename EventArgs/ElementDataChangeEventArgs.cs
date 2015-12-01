@@ -6,17 +6,18 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class ElementDataChangeEventArgs : System.EventArgs
+	public class ElementDataChangeEventArgs : ElementEventArgs
 	{
-		public ElementDataChangeEventArgs( string name, dynamic oldValue, Player client )
+		public ElementDataChangeEventArgs( Element _this, Player client, string name, dynamic oldValue )
+			: base( _this )
 		{
+			this.Client		= client;
 			this.Name		= name;
 			this.OldValue	= oldValue;
-			this.Client		= client;
 		}
 
+		public Player Client;
 		public string Name;
 		public dynamic OldValue;
-		public Player Client;
 	}
 }

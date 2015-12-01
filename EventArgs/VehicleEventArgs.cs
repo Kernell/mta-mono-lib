@@ -6,14 +6,14 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerPickupUseEventArgs : CancelEventArgs
+	public class VehicleEventArgs : ElementEventArgs
 	{
-		public PlayerPickupUseEventArgs( Element _this, Pickup pickup )
+		public VehicleEventArgs( Element _this, Vehicle vehicle )
 			: base( _this )
 		{
-			this.Pickup = pickup;
+			this.Vehicle = vehicle;
 		}
 
-		public Pickup Pickup;
+		public Vehicle Vehicle;
 	}
 }

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class ConsoleEventArgs : System.EventArgs
+	public class ConsoleEventArgs : ElementEventArgs
 	{
-		public ConsoleEventArgs( string message )
+		public ConsoleEventArgs( Element _this, string message )
+			: base( _this )
 		{
 			this.Message = message;
 		}

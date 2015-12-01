@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerQuitEventArgs : System.EventArgs
+	public class PlayerQuitEventArgs : ElementEventArgs
 	{
-		public PlayerQuitEventArgs( string type, string reason, Player responsePlayer )
+		public PlayerQuitEventArgs( Element _this, string type, string reason, Player responsePlayer )
+			: base( _this )
 		{
 			this.Type = type;
 			this.Reason = reason;

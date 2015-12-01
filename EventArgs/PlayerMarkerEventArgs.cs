@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerMarkerEventArgs : System.EventArgs
+	public class PlayerMarkerEventArgs : ElementEventArgs
 	{
-		public PlayerMarkerEventArgs( Marker marker, bool matchingDimension )
+		public PlayerMarkerEventArgs( Element _this, Marker marker, bool matchingDimension )
+			: base( _this )
 		{
 			this.Marker = marker;
 			this.MatchingDimension = matchingDimension;

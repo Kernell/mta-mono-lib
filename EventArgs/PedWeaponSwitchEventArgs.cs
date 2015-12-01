@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PedWeaponSwitchEventArgs : System.EventArgs
+	public class PedWeaponSwitchEventArgs : ElementEventArgs
 	{
-		public PedWeaponSwitchEventArgs( int previousWeaponID, int currentWeaponID )
+		public PedWeaponSwitchEventArgs( Element _this, int previousWeaponID, int currentWeaponID )
+			: base( _this )
 		{
 			this.PreviousWeaponID	= previousWeaponID;
 			this.CurrentWeaponID	= currentWeaponID;

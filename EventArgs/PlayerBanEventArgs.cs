@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerBanEventArgs : System.EventArgs
+	public class PlayerBanEventArgs : ElementEventArgs
 	{
-		public PlayerBanEventArgs( Ban banPointer, Player responsibleElement  )
+		public PlayerBanEventArgs( Element _this, Ban banPointer, Player responsibleElement )
+			: base( _this )
 		{
 			this.Ban = banPointer;
 			this.Responsible = responsibleElement;

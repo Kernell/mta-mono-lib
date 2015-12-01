@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PlayerChangeNickEventArgs : CancelEventArgs
 	{
-		public PlayerChangeNickEventArgs( string oldNick, string newNick )
+		public PlayerChangeNickEventArgs( Element _this, string oldNick, string newNick )
+			: base( _this )
 		{
 			this.Old = oldNick;
 			this.New = newNick;

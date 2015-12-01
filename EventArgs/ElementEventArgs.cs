@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PedEventArgs : ElementEventArgs
+	public class ElementEventArgs : System.EventArgs
 	{
-		public PedEventArgs( Element _this, Ped ped )
-			: base( _this )
+		public ElementEventArgs( Element _this )
 		{
-			this.Ped = ped;
+			this.This = _this;
 		}
 
-		public Ped Ped;
+		public Element This;
 	}
 }

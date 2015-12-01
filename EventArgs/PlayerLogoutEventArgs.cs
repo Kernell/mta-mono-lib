@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerLogoutEventArgs : System.EventArgs
+	public class PlayerLogoutEventArgs : ElementEventArgs
 	{
-		public PlayerLogoutEventArgs( Account previousAccount, Account currentAccount )
+		public PlayerLogoutEventArgs( Element _this, Account previousAccount, Account currentAccount )
+			: base( _this )
 		{
 			this.PreviousAccount	= previousAccount;
 			this.CurrentAccount		= currentAccount;

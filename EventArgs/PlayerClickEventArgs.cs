@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerClickEventArgs : System.EventArgs
+	public class PlayerClickEventArgs : ElementEventArgs
 	{
-		public PlayerClickEventArgs( string mouseButton, string buttonState, Element clickedElement, float worldX, float worldY, float worldZ, float screenX, float screenY )
+		public PlayerClickEventArgs( Element _this, string mouseButton, string buttonState, Element clickedElement, float worldX, float worldY, float worldZ, float screenX, float screenY )
+			: base( _this )
 		{
 			this.MouseButton	= mouseButton;
 			this.ButtonState	= buttonState;

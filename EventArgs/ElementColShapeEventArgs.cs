@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class ElementColShapeEventArgs : System.EventArgs
+	public class ElementColShapeEventArgs : ElementEventArgs
 	{
-		public ElementColShapeEventArgs( ColShape colShape, bool matchingDimension )
+		public ElementColShapeEventArgs( Element _this, ColShape colShape, bool matchingDimension )
+			: base( _this )
 		{
 			this.ColShape			= colShape;
 			this.MatchingDimension	= matchingDimension;

@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerScreenShotEventArgs : System.EventArgs
+	public class PlayerScreenShotEventArgs : ElementEventArgs
 	{
-		public PlayerScreenShotEventArgs( Resource resource, string status, string imageData, int timestamp, string tag )
+		public PlayerScreenShotEventArgs( Element _this, Resource resource, string status, string imageData, int timestamp, string tag )
+			: base( _this )
 		{
 			this.Resource	= resource;
 			this.Status		= status;

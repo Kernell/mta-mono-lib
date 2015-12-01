@@ -8,7 +8,8 @@ namespace MultiTheftAuto.EventArgs
 {
 	public class PlayerPickupHitEventArgs : CancelEventArgs
 	{
-		public PlayerPickupHitEventArgs( Pickup pickup, bool matchingDimension )
+		public PlayerPickupHitEventArgs( Element _this, Pickup pickup, bool matchingDimension )
+			: base( _this )
 		{
 			this.Pickup = pickup;
 			this.MatchingDimension = matchingDimension;

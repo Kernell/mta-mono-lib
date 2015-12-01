@@ -6,9 +6,15 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class CancelEventArgs : System.EventArgs
+	public class CancelEventArgs : ElementEventArgs
 	{
-		public void Cancel( bool cancel = true, string reason ="" )
+		public CancelEventArgs( Element _this )
+			: base( _this )
+		{
+		
+		}
+
+		public void Cancel( bool cancel = true, string reason = "" )
 		{
 			Native.Event.Cancel( cancel, reason );
 		}

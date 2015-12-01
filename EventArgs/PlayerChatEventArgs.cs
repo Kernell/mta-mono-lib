@@ -6,9 +6,10 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerChatEventArgs : System.EventArgs
+	public class PlayerChatEventArgs : ElementEventArgs
 	{
-		public PlayerChatEventArgs( string message, int messageType )
+		public PlayerChatEventArgs( Element _this, string message, int messageType )
+			: base( _this )
 		{
 			this.Message	= message;
 			this.Type		= messageType;

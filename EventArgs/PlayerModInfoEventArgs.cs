@@ -6,15 +6,16 @@ using System.Threading.Tasks;
 
 namespace MultiTheftAuto.EventArgs
 {
-	public class PlayerModInfoEventArgs : System.EventArgs
+	public class PlayerModInfoEventArgs : ElementEventArgs
 	{
-		public PlayerModInfoEventArgs( string filename, List<PlayerModInfo> list )
+		public PlayerModInfoEventArgs( Element _this, string filename, PlayerModInfo [] list )
+			: base( _this )
 		{
-			this.FileName = filename;
-			this.List = list;
+			this.FileName	= filename;
+			this.List		= list;
 		}
 
-		public List<PlayerModInfo> List;
+		public PlayerModInfo [] List;
 
 		public string FileName
 		{

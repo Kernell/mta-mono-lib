@@ -99,7 +99,6 @@
     <Compile Include="EventArgs\VehicleRespawnEventArgs.cs" />
     <Compile Include="EventArgs\VehicleStartEnterEventArgs.cs" />
     <Compile Include="HeatHazeSettings.cs" />
-    <Compile Include="JSON.cs" />
     <Compile Include="Marker.cs" />
     <Compile Include="MultiTheftAuto.cs" />
     <Compile Include="Native\Account.cs" />
@@ -118,6 +117,7 @@
     <Compile Include="Native\Player.cs" />
     <Compile Include="Native\RadarArea.cs" />
     <Compile Include="Native\Resource.cs" />
+    <Compile Include="Native\Server.cs" />
     <Compile Include="Native\Team.cs" />
     <Compile Include="Native\Vehicle.cs" />
     <Compile Include="Native\Water.cs" />

@@ -8,14 +8,14 @@ namespace MultiTheftAuto
 {
     public class ServerVersion
     {
-		public ulong Number;
-		public string String;
-		public string Name;
-		public string BuildType;
-		public ulong Netcode;
-		public string OperatingSystem;
-		public string BuildTag;
-		public string Sortable;
+		public ulong Number { get; set; }
+		public string String { get; set; }
+		public string Name { get; set; }
+		public string BuildType { get; set; }
+		public ulong Netcode { get; set; }
+		public string OperatingSystem { get; set; }
+		public string BuildTag { get; set; }
+		public string Sortable { get; set; }
 
 		public ServerVersion( ulong number, string version, string name, string buildType, ulong netcode, string os, string tag, string sortable )
 		{

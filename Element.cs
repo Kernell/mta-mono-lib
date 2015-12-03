@@ -371,8 +371,6 @@ namespace MultiTheftAuto
 		{
 			UInt32 userdata = Native.Element.GetByID( elementID, index );
 
-			Debug.Info( "{0} [{1}]", userdata, userdata.ToString() );
-
 			return userdata != 0 ? Element.FindOrCreate( userdata ) : null;
 		}
 

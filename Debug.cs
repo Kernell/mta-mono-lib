@@ -1,33 +1,64 @@
 ﻿using System;
 using System.Runtime.CompilerServices;
 using System.Diagnostics;
+using System.Reflection;
+using System.IO;
 
 namespace MultiTheftAuto
 {
     public static class Debug
     {
+		private static string assemblyName = Resource.GetCurrent().GetName();
+
         [MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern void Log( string message );
+		private static extern void Log( string message );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern void Info( string message );
+		private static extern void Info( string message );
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
-		public static extern void Error( string message );
+		private static extern void Error( string message );
 
-		public static void Log( string message, params Object[] args )
+		public static void Log( string message, params string[] args )
 		{
 			Log( String.Format( message, args ) );
 		}
 
-		public static void Info( string message, params Object[] args )
+		public static string FormatPath( string path )
 		{
-			Info( String.Format( message, args ) );
+			string filepath = "";
+
+			bool start = false;
+
+			foreach( string s in path.Split( '\\' ) )
+			{
+				if( start )
+				{
+					if( filepath.Length > 0 )
+					{
+						filepath += "\\";
+					}
+
+					filepath += s;
+				}
+
+				if( s == assemblyName )
+				{
+					start = true;
+				}
+			}
+
+			return filepath;
 		}
 
-		public static void Error( string message, params Object[] args )
+		public static void Info( string message, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0 )
 		{
-			Error( String.Format( message, args ) );
+			Info( String.Format( "{0}:{1}: {2}", FormatPath( filePath ), lineNumber, message ) );
+		}
+
+		public static void Error( string message, [CallerMemberName] string memberName = "", [CallerFilePath] string filePath = "", [CallerLineNumber] int lineNumber = 0 )
+		{
+			Error( String.Format( "{0}:{1}: {2}", FormatPath( filePath ), lineNumber, message ) );
 		}
     }
 }

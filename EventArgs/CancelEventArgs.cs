@@ -16,7 +16,7 @@ namespace MultiTheftAuto.EventArgs
 
 		public void Cancel( bool cancel = true, string reason = "" )
 		{
-			Native.Event.Cancel( cancel, reason );
+			Event.Cancel( cancel, reason );
 		}
 	}
 }

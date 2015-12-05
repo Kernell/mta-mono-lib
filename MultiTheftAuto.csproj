@@ -51,6 +51,7 @@
     <Compile Include="Color.cs" />
     <Compile Include="ColShape.cs" />
     <Compile Include="Element.cs" />
+    <Compile Include="Event.cs" />
     <Compile Include="EventArgs\BanEventArgs.cs" />
     <Compile Include="EventArgs\CancelEventArgs.cs" />
     <Compile Include="EventArgs\ChatMessageEventArgs.cs" />

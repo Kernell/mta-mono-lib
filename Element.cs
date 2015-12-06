@@ -37,6 +37,8 @@ namespace MultiTheftAuto
 		public Element( UInt32 userdata )
 		{
 			this.userdata = userdata;
+
+			FindOrCreate( userdata );
 		}
 
 		public Element( string type, string ID )
@@ -193,7 +195,7 @@ namespace MultiTheftAuto
 			return Native.Element.GetData( this.userdata, key, inherit );
 		}
 
-		public new string GetType()
+		public string GetElementType()
 		{
 			return Native.Element.GetType( this.userdata );
 		}

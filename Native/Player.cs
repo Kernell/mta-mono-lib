@@ -3,7 +3,7 @@ using System.Runtime.CompilerServices;
 
 namespace MultiTheftAuto.Native
 {
-	public class Player : Ped
+	internal class Player : Ped
 	{
 		// Player get functions
 		[MethodImpl( MethodImplOptions.InternalCall )]
@@ -141,5 +141,26 @@ namespace MultiTheftAuto.Native
 
 		[MethodImpl( MethodImplOptions.InternalCall )]
 		public static extern string GetPlayerAnnounceValue( UInt32 element, string key );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern CameraMatrix GetCameraMatrix( UInt32 userdata );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt32 GetCameraTarget( UInt32 userdata );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern UInt16 GetCameraInterior( UInt32 userdata );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool SetCameraMatrix( UInt32 userdata, CameraMatrix pCameraMatrix );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool SetCameraTarget( UInt32 userdata, UInt32 pTarget );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool SetCameraInterior( UInt32 userdata, UInt16 ucInterior );
+
+		[MethodImpl( MethodImplOptions.InternalCall )]
+		public static extern bool FadeCamera( UInt32 userdata, bool bFadeIn, float fFadeTime, Color pColor );
 	}
 }

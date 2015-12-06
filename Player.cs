@@ -106,6 +106,26 @@ namespace MultiTheftAuto
 			return Native.Player.SetTeam( this.GetUserData(), team.GetUserData() );
 		}
 
+		public bool SetCameraMatrix( CameraMatrix pCameraMatrix )
+		{
+			return Native.Player.SetCameraMatrix( this.userdata, pCameraMatrix );
+		}
+
+		public bool SetCameraTarget( Element pTarget )
+		{
+			return Native.Player.SetCameraTarget( this.userdata, pTarget.userdata );
+		}
+
+		public bool SetCameraInterior( UInt16 ucInterior )
+		{
+			return Native.Player.SetCameraInterior( this.userdata, ucInterior );
+		}
+
+		public bool FadeCamera( bool bFadeIn, float fFadeTime, Color pColor )
+		{
+			return Native.Player.FadeCamera( this.userdata, bFadeIn, fFadeTime, pColor );
+		}
+
 		#endregion
 
 		#region Get
@@ -208,6 +228,21 @@ namespace MultiTheftAuto
 		public Object GetACInfo()
 		{
 			return Native.Player.GetACInfo( this.GetUserData() );
+		}
+
+		public CameraMatrix GetCameraMatrix()
+		{
+			return Native.Player.GetCameraMatrix( this.userdata );
+		}
+
+		public UInt32 GetCameraTarget()
+		{
+			return Native.Player.GetCameraTarget( this.userdata );
+		}
+
+		public UInt16 GetCameraInterior()
+		{
+			return Native.Player.GetCameraInterior( this.userdata );
 		}
 
 		#endregion
